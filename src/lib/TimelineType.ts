@@ -58,6 +58,7 @@ export type TimelineEventProps = Merge<NewTimelineItem, {
   isDraggable?: boolean;
 }>;
 
+// 使ってません
 export type PickDate = Pick<TimelineEventProps, 'start' | 'end' | 'id'>;
 
 // ここから、認証Prop
@@ -79,5 +80,5 @@ export type AuthGuardContext = ExpectedAuth<Option<AuthInfoProp>>;
 const opt1: AuthGuardContext = {type: 'token', accessToken: ''};
 const opt2: AuthGuardContext = {type: 'auth', authId: 0, group: 100};
 
-type DecentEventWrapperProps = Omit<EventWrapperProps<TimelineEventProps>,
-	'continuesAfter' | 'continuesPrior' | 'isBackgroundEvent' | 'resizable'>;
+// type DecentEventWrapperProps = Omit<EventWrapperProps<TimelineEventProps>,
+// 	'continuesAfter' | 'continuesPrior' | 'isBackgroundEvent' | 'resizable'>;

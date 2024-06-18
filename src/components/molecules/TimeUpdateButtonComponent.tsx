@@ -19,34 +19,26 @@ export const TimesUpdateButton = forwardRef(
   );
 
   const updateEvents = useUpdateDateListMutation(timeChangeEventIds);
-  const resetMutate = async () => {
-    updateEvents.mutate([]);
-    // const data = await updateEvents.mutateAsync([]);
-    // console.log('DnD event: ', timeChangeEvents);
-    // return data;
-  }
-  const handleUpdateAction = () => {
-    updateEvents.mutate(timeChangeEvents);
-    console.log('Updateしたつもり');
+  const resetAction = () => {
     setTimeout(() => {
       timeChangeEvents.splice(0);
       console.log('Inner setTimeout');
     }, 250);
+  }
+  const handleUpdate = () => {
+    updateEvents.mutate(timeChangeEvents);
+    console.log('Updateしたつもり');
+    resetAction();
     console.log('Outer setTimeout');
-    // resetAction().then(() => {
-    //   timeChangeEvents.splice(0);
-    // }).catch(() => {
-    //   throw new Error('Reset error!');
-    // });
   }
 
   return (
     <ChakraProvider>
       {timeChangeEvents.length > 0 &&
         <Box className={updateButtonArea.container} ref={buttonRef}>
-          <Button onClick={handleUpdateAction}>変更する</Button>
+          <Button onClick={handleUpdate}>変更する</Button>
           <Text className={updateButtonArea.countText}>変更回数: {timeChangeEvents.length}</Text>
-          {/* <Button onClick={resetAction}>リセット</Button> */}
+          <Button onClick={resetAction}>リセット</Button>
         </Box>
       }
     </ChakraProvider>
