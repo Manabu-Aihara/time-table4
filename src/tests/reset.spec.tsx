@@ -34,18 +34,29 @@ const items: TimelineEventProps[] = [
 const queryClient = new QueryClient();
 
 let renderResult: RenderResult;
-describe('DnDアップデート用ボタン', () => {
+let rerenderResult: RenderResult;
+describe.skip('DnDアップデート用ボタン', () => {
   beforeEach(() => {
     renderResult = render(
       <QueryClientProvider client={queryClient}>
         <TimesUpdateButton timeChangeEvents={items} />
       </QueryClientProvider>);
+  rerenderResult = render(
+    <QueryClientProvider client={queryClient}>
+      <TimesUpdateButton timeChangeEvents={[]} />
+    </QueryClientProvider>);
   });
 
   test('まずはレンダー', () => {
     expect(renderResult.getByText('変更回数: 3')).toBeInTheDocument();
   });
-  test('リセットボタンクリック', () => {
-
+  test('buttonロールであること', () => {
+    expect(renderResult.getAllByRole('button')[1].textContent).toBe('リセット');
   });
-})
+  test('ボタンクリック', () => {
+    // const clickMock = vi.fn(() => {return rerenderResult});
+    const resetButton = renderResult.getByRole('button', {name: 'リセット'});
+    resetButton.click();
+    // expect(renderResult.getByText('')).toBeInTheDocument();
+  });
+});

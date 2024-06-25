@@ -28,10 +28,10 @@ type NewTimelineItem = Omit<TimelineItem<Date> & EventItem,
 	id: Id;
 	group: Id;
 	// title?: React.ReactNode;
-	start_time?: DateType → monment.Moment;
-	end_time?: DateType → moment.Moment;
-	start?: Date;
-	end?: Date;
+	start_time: DateType → monment.Moment;
+	end_time: DateType → moment.Moment;
+	start: Date;
+	end: Date;
 
 	staff_id: number;
 	title: React.ReactNode;
@@ -53,8 +53,8 @@ export type TimelineEventProps = Merge<NewTimelineItem, {
 	// id: pickId;
 	// group: pickGroup;
   title: React.ReactNode;
-	start_time?: moment.Moment;
-	end_time?: moment.Moment;
+	start_time: moment.Moment;
+	end_time: moment.Moment;
   isDraggable?: boolean;
 }>;
 

@@ -1,99 +1,108 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import { chakra } from '@chakra-ui/system';
+import moment from 'moment';
 
-import ReactCalendarTimeline2 from 'react-calendar-timeline';
+import Timeline from 'react-calendar-timeline';
 
 import { TimelineEventProps } from '../../lib/TimelineType';
 import { useEventsState, useAuthContext } from '../../hooks/useContextFamily';
-// import { TitleInputModal } from '../organisms/DialogComponent'; 
 import { AddChildForm } from "../organisms/InputItem";
 
-// make sure you include the timeline stylesheet or the timeline will not be styled
 import 'react-calendar-timeline/lib/Timeline.css';
-// import { topWidth } from '../sprinkles.responsive.css';
+import { topWidth } from '../sprinkles.responsive.css';
 
-import moment from 'moment';
+const groupArray = ["本社", "宇都宮", "下野", "鹿沼", "KODOMOTO", "在宅支援", "KO相談", "つくば"]
 
-const groups = [{ id: 1, title: 'group 1' }, { id: 2, title: 'group 2' }]
-
-interface EventProps {
-  targetEvent: TimelineEventProps;
-	onShowFormView: (targetEvent: TimelineEventProps) => void;
+interface EventFormProps {
+  targetEvent: TimelineEventProps,
+	onShowFormView: (targetEvent: TimelineEventProps) => void
 }
 
-export const SampleTimeline = ({onShowFormView, targetEvent}: EventProps) => {
-
-  const [showModal, setShowModal] = useState(false);
-	const divRef = useRef<HTMLDivElement>(null);
+export const MyTimeline = ({onShowFormView, targetEvent}: EventFormProps) => {
 
   const state = useEventsState();
 
-  // const token = useAuthContext();
-  const toString = Object.prototype.toString;
-  console.log(`Event in timeline: ${JSON.stringify(state)}`, toString.call(state.slice(-1)[0].end));
+  const groups = groupArray.map((v, k) => {
+    return {id: k + 1, title: v};
+  })
 
-  // TypeScriptでReactのイベントにどう型指定するか
-  // https://komari.co.jp/blog/10724/
-  const handleOuterBubbling = (e: React.MouseEvent<HTMLDivElement>) => {
+  /**
+   * Issue summary & progress
+   */
+  const [showModal, setShowModal] = useState(false);
+	const divRef = useRef<HTMLDivElement>(null);
+  const handleOuterFormBubbling = (e: React.MouseEvent<HTMLDivElement>) => {
     if(!(e.target instanceof HTMLButtonElement)){
       return;
     }
     setShowModal(false);
   }
 
-  useEffect(() => {
-    divRef?.current?.scrollIntoView({behavior: 'smooth'});
-    // console.log(`Container: ${ref.current?.outerHTML}`);
-  }, [targetEvent]);
-
-  const handleSelectEvent = useCallback((callingEvent: TimelineEventProps) => {
-    const { title, start_time, end_time } = callingEvent;
-    console.log(`選んだイベント: ${start_time}: ${end_time}: ${title}`);
+  const handleSelectEvent = useCallback(
+    (callingEvent: TimelineEventProps, e: React.SyntheticEvent<HTMLElement, Event>) =>
+  {
+    console.log(`Event motion: ${e.type}`);
     onShowFormView(callingEvent);
     setShowModal(true);
   }, []);
+
+  useEffect(() => {
+    // console.log('Effect通りました', eventFlag);
+    divRef.current?.scrollIntoView({behavior: 'smooth'});
+  }, [targetEvent]);
 
   const closeInputForm = () => {
     setShowModal(false);
   }
 
   return (
-    <div>
+    <chakra.div>
+      <button>
+        <Link to="/calendar">タイムテーブル</Link>
+      </button>
       Rendered by react!
-      <chakra.div display="flex" justifyContent="flex-start" overflowX="auto" scrollSnapType="x mandatory">
-        <chakra.div display="flex" justifyContent="flex-start" overflowY="auto" scrollSnapType="y mandatory">
-          <ReactCalendarTimeline2
+      {/* <chakra.div display="flex" justifyContent="flex-start" overflowX="auto" scrollSnapType="x mandatory"> */}
+      <chakra.div overflowX="hidden">
+        <Timeline
             groups={groups}
+            // items={state} ← これがダメなの、わからない
             items={state.map((item) => {
               return (
                 {
-                  itemProps: {
-                    onDoubleClick: () => handleSelectEvent(item),
-                  },
-                  id: item.id,
-                  staff_id: item.staff_id,
-                  group: item.group,
-                  start: item.start,
-                  end: item.end,
-                  title: item.title,
-                  start_time: item.start_time,
-                  end_time: item.end_time,
+                  ...item,
+                  // id: item.id,
+                  // staff_id: item.staff_id,
+                  // group: item.group,
+                  // start: item.start,
+                  // end: item.end,
+                  // title: item.title,
+                  // start_time: item.start_time,
+                  // end_time: item.end_time,
                   // onClick: () => handleSelectEvent(item)
-                  // ...item
+                  itemProps: {
+                    onDoubleClick: (e) => handleSelectEvent(item, e),
+                  },
                 }
               );
             })}
-            // itemRenderer={(prop) => prop.timelineContext}
-            // visibleTimeStart={-10000}
-            defaultTimeStart={moment().add(-24, 'hour')}
-            defaultTimeEnd={moment().add(24, 'hour')}
+            defaultTimeStart={new Date(new Date().setDate(new Date().getHours() - 12))}
+            defaultTimeEnd={new Date(new Date().setDate(new Date().getHours() + 12))}
+            // visibleTimeStart={moment().add(-12, 'hours')}
+            // visibleTimeEnd={moment().add(-12, 'hours')}
+            minZoom={24 * 60 * 60 * 1000}
+            maxZoom={0.5 * 365.24 * 86400 * 1000}
           />
         </chakra.div>
-      </chakra.div>
-      <chakra.div flexShrink="0" scrollSnapAlign="start" onClick={handleOuterBubbling}>
-        {showModal && <AddChildForm selectedEvent={targetEvent} closeClick={closeInputForm} ref={divRef} />}
-      </chakra.div>
-      {/* <TitleInputModal /> */}
-    </div>
+        <chakra.div flexShrink="0" scrollSnapAlign="start"
+          className={topWidth}
+          onClick={handleOuterFormBubbling}>
+          {showModal &&
+            <AddChildForm selectedEvent={targetEvent}
+            closeClick={closeInputForm} ref={divRef} />
+          }
+        </chakra.div>
+      {/* </chakra.div> */}
+    </chakra.div>
   );
 }

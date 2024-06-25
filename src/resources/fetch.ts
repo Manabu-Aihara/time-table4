@@ -13,18 +13,17 @@ export const fetchEventsData = async (postToken: string): Promise<TimelineEventP
 			'Authorization': `Bearer ${postToken}`,
 			'credentials': 'include' // ここを追加。
 		}
-	});
+	})
 	console.log(`Event fetch data: ${JSON.stringify(data)}`);
 	return data;
-	// .then(res => res.json());
-	// .then(json => console.log(json))
+	// .then(res => console.log(res))
 	// .catch(err => console.log(err));
 }
 
 // とりあえず、値が取れるからこっち採用
 const cache = new Map();
 
-export const fetchGetResponse = async (postToken: string): Promise<AxiosResponse<AuthInfoProp>> => {
+export const fetchGetAuthResponse = async (postToken: string): Promise<AxiosResponse<AuthInfoProp>> => {
   const authResponse = await basicAxios.post<AxiosResponse>('/timetable/inquiry', postToken,
 		{
 			headers: {
@@ -42,7 +41,7 @@ export const fetchGetResponse = async (postToken: string): Promise<AxiosResponse
 };
 
 export const refresh = async (prev: string): Promise<AxiosResponse<string>> => {
-  const response = await basicAxios.get<AxiosResponse>('/refresh', {
+  const response = await basicAxios.post('/refresh', {
     headers: {
 			'Access-Control-Allow-Origin': '*',
 			'Authorization': `Bearer ${prev}`,
@@ -51,3 +50,17 @@ export const refresh = async (prev: string): Promise<AxiosResponse<string>> => {
   });
   return response.data;
 };
+
+export const requestGroup = async (postToken: string)
+	: Promise<AxiosResponse<string>> =>	{
+  const groupNameResp = await basicAxios.post('/group-name', postToken,
+		{
+			headers: {
+				'Access-Control-Allow-Origin': '*',
+				'Authorization': `Bearer ${postToken}`,
+				'credentials': 'include'
+			}
+		});
+
+	return groupNameResp.data;
+}

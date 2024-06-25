@@ -1,4 +1,4 @@
-import { forwardRef, Ref } from "react";
+import { forwardRef, Ref, useCallback } from "react";
 import { ChakraProvider, Box, Button, Text } from "@chakra-ui/react";
 
 import { useUpdateDateListMutation } from "../../hooks/useEventMutation";
@@ -21,13 +21,20 @@ export const TimesUpdateButton = forwardRef(
   const updateEvents = useUpdateDateListMutation(timeChangeEventIds);
   const resetAction = () => {
     setTimeout(() => {
-      timeChangeEvents.splice(0);
+      // timeChangeEvents.splice(0);
+      handleReset();
       console.log('Inner setTimeout');
     }, 250);
   }
+  const handleReset = () => {
+    updateEvents.mutate([]);
+    timeChangeEvents.splice(0);
+    console.log('Outer setTimeout');
+  }
+
   const handleUpdate = () => {
     updateEvents.mutate(timeChangeEvents);
-    console.log('Updateしたつもり');
+    // console.log('Updateしたつもり');
     resetAction();
     console.log('Outer setTimeout');
   }
@@ -38,7 +45,7 @@ export const TimesUpdateButton = forwardRef(
         <Box className={updateButtonArea.container} ref={buttonRef}>
           <Button onClick={handleUpdate}>変更する</Button>
           <Text className={updateButtonArea.countText}>変更回数: {timeChangeEvents.length}</Text>
-          <Button onClick={resetAction}>リセット</Button>
+          <Button onClick={handleReset}>リセット</Button>
         </Box>
       }
     </ChakraProvider>

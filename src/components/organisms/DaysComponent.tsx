@@ -6,7 +6,7 @@ import { DateLocalizer, Navigate, TitleOptions } from 'react-big-calendar';
 // import Timeline from 'react-calendar-timeline'
 // make sure you include the timeline stylesheet or the timeline will not be styled
 import moment from 'moment';
-import { SampleTimeline } from '../pages/TLComponent';
+import { SampleTimeline } from '../pages/SampleTLComponent';
 import { TimelineEventProps } from '../../lib/TimelineType';
 
 import 'react-calendar-timeline/lib/Timeline.css'

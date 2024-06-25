@@ -1,9 +1,11 @@
-import { createContext, Dispatch, ReactNode, useReducer } from 'react';
+import { createContext, Dispatch, ReactNode, useEffect, useReducer } from 'react';
 import moment from 'moment';
 
 // import { EventItem } from '../lib/EventItem';
 import { TimelineEventProps } from '../../lib/TimelineType';
-import { useEventsQuery } from '../../resources/queries';
+import { useEventsQuery, useEventsQueryForTl } from '../../resources/queries';
+import { useAuthContext } from '../../hooks/useContextFamily';
+import { fetchEventsData } from '../../resources/fetch';
 // import { timelineEventsReducer } from '../../lib/reducer';
 
 // type EventItems = EventItem[];
@@ -45,11 +47,23 @@ export const EventsContextProvider = ({ children }: { children: ReactNode }) => 
     end: new Date(new Date().setHours(new Date().getHours() + 1))
   }
 
-  const { data } = useEventsQuery();
-  // console.log(`Parent events: ${data}`);
+  const authContext = useAuthContext();
+  const token = authContext.type === 'token' ? authContext.accessToken : undefined;
+  // useEffect(() => {
+  //   const f = async () => {
+  //     console.log('Passed');
+  //     const fetchmono = await fetchEventsData(token!);
+  //     console.log(`fetch json: ${fetchmono}`);
+  //   }
+  //   f();
+  // }, []);
+
+  // const { data } = useEventsQuery();
+  const { data, error } = useEventsQueryForTl();
+  console.log(`Parent json: ${JSON.stringify(data)}`);
   const toString = Object.prototype.toString;
   // toString.call(new Date()); // [object Date]
-  // console.log('Parent end type: ', toString.call(data?.slice(-1)[0].end));
+  console.log('Parent end type: ', toString.call(moment.isMoment(data?.slice(-1)[0].end_time)));
   const state: TimelineEventPropsList = [initialData].concat(data!);
   
   return (

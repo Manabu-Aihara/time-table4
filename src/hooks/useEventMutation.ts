@@ -29,12 +29,13 @@ export const useDeleteMutation = (targetId: number | string) => {
   return useMutation({
     mutationFn: () =>
       basicAxios.delete(`/event/remove/${targetId}`),
-    onError: (error) => {
-      console.log(`error!: ${error}`);
-    },
-    onSuccess: () => {
+    // 一回引っかかって、ここで終了してしまう
+    // onError: (error) => {
+    //   console.log(`error!: ${error}`);
+    // },
+    onSettled: () => {
       console.log('サクセス通ってます');
-      return eventCache.invalidateList();
+      eventCache.invalidateList();
     }
   });
 }
@@ -78,7 +79,7 @@ export const useUpdateDateListMutation = (targetIds: string[]) => {
     //   console.log(`variables: ${JSON.stringify(variables)}, context: prevEventsと同じよ`)
     // },
     onSettled: (data, error) => {
-      console.log(`Mutation data: ${data}`);
+      // console.log(`Mutation data: ${data}`);
       console.log(`Mutation error: ${error}`);
       eventCache.invalidateList();
     }

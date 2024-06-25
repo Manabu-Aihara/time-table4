@@ -26,6 +26,7 @@ dist-ssr
 env/.env
 yarn.lock
 package-lock.json
+*.bak
 *.default
 _tank.txt
 src.default/

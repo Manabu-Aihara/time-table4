@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect, useCallback, useRef, CSSProperties } from 'react';
+import { useMemo, useState, useEffect, useCallback, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Calendar, Views, View, SlotInfo } from 'react-big-calendar'
 import withDragAndDrop, { OnDragStartArgs, withDragAndDropProps } from 'react-big-calendar/lib/addons/dragAndDrop'
@@ -10,63 +10,36 @@ import { useAuthInfo } from '../../hooks/useAuthGuard';
 import { useMouseEvents } from '../../hooks/useMouseHandle';
 import localizer from '../../lib/Localization';
 import { TimelineEventProps } from '../../lib/TimelineType';
+import { useSearchQuery } from '../../resources/queries';
 import { CustomContainerWrapper, CustomEventWrapper, CustomEventCard } from '../molecules/WrapComponent';
 import { TimesUpdateButton } from '../molecules/TimeUpdateButtonComponent';
 import { MyWeek } from '../organisms/DaysClassComponent';
 import { views } from '../organisms/DaysComponent';
 import { AddChildForm } from "../organisms/InputItem";
-import { useSearchQuery } from '../../resources/queries';
+import { TitleInput } from '../organisms/InputTitleDialog';
 
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css';
 import cx from 'classnames';
 import { topWidth } from '../sprinkles.responsive.css';
 import { flexXmandatory, gridArea } from './CalendarComponent.css';
-import { TitleInput } from '../organisms/InputTitleDialog';
+import { MyTimeline } from './TLComponent';
 // import { eventData } from '../../lib/SampleState';
 
 interface EventFormProps {
-  targetEvent: TimelineEventProps;
-	onShowFormView: (targetEvent: TimelineEventProps) => void;
+  targetEvent: TimelineEventProps,
+	onShowFormView: (targetEvent: TimelineEventProps) => void
 }
 
 export const MyCalendar = ({onShowFormView, targetEvent}: EventFormProps) => {
   const state = useEventsState();
 
-	const { data } = useSearchQuery('userID');
-  const eventPropGetter = useCallback((event: TimelineEventProps) => {
-    // 後ろの要素をクリックさせたい時は「pointer-events」を使おう。
-    // https://hp-shizuoka.jp/column/2018/01/21584/
-    const exceptStyle: CSSProperties = {
-      pointerEvents: 'none',
-      opacity: '.7'
-    }
-    const draggableClass = event.isDraggable ?
-      { className: 'isDraggable' } : { className: 'nonDraggable' }
-    const indenticalStyle: CSSProperties = {
-      pointerEvents: 'auto'
-    }
-
-    if(event.staff_id.toString() != data){
-			// console.log(`上通りました: ${event.staff_id}`);
-      return { style: exceptStyle }
-    }else{
-      // console.log('下通りました');
-      return draggableClass
-      // return { style: indenticalStyle }
-    }
-  }, [data]);
-  
-    /**
+  /**
    * Drag and Drop
    */
   const DnDCalendar = withDragAndDrop(Calendar<TimelineEventProps>);
   const { onEventResize, onEventDrop, eventList, prevRef } = useMouseEvents();
   console.log(`Remained prev data: ${JSON.stringify(prevRef.current)}`);
-
-	// const selectedStaff = `${prevRef.current?.staff_id}` as const;
-	// const { data: infoContext } = useSearchQuery('userID');
-  // console.log(infoContext === selectedStaff.toString() ? true : false);
 
   state.map((evt, j) => {
     // if(prevRef){
@@ -78,7 +51,7 @@ export const MyCalendar = ({onShowFormView, targetEvent}: EventFormProps) => {
     // }
   });
   /* && console.log(`Exclude event id: ${prevRef.current?.id}, ${j}`)*/
-  console.log(`Old state: ${JSON.stringify(state)}`);
+  // console.log(`Old state: ${JSON.stringify(state)}`);
   const newState = eventList ? state.concat(eventList) : state;
   console.log(`Expect update events: ${JSON.stringify(eventList)}`);
 
@@ -110,6 +83,7 @@ export const MyCalendar = ({onShowFormView, targetEvent}: EventFormProps) => {
         open();
       }
     }, 250);
+    // こっちが先になる
     countRef.current = clickRef.current;
     console.log('今の状態 Slot: ', countRef.current, clickRef.current);
   }, []);
@@ -145,11 +119,18 @@ export const MyCalendar = ({onShowFormView, targetEvent}: EventFormProps) => {
     divRef.current?.scrollIntoView({behavior: 'smooth'});
   }, [targetEvent]);
 
+	const selectedStaff = `${prevRef.current?.staff_id}` as const;
+	const { data: infoContext } = useSearchQuery('userID');
+  console.log(infoContext === selectedStaff ? true : false);
+
+  const [dragStart, setDragStart] = useState<boolean>();
   const onDragStart = useCallback((args: OnDragStartArgs<TimelineEventProps>) => {
     const { event, action } = args;
-    if(action === 'move'){
-      onShowFormView(event);
-      setShowModal(true);
+    if(event.staff_id.toString() != infoContext){
+      console.log('ちがうとこ通ります', action);
+      setDragStart(false);
+    }else{
+      setDragStart(true);
     }
   }, []);
 
@@ -166,6 +147,8 @@ export const MyCalendar = ({onShowFormView, targetEvent}: EventFormProps) => {
     // eventContainerWrapper: CustomContainerWrapper
   }), []);
 
+	const [event, setEvent] = useState<TimelineEventProps>();
+
   return (
     <chakra.div>
       <TimesUpdateButton timeChangeEvents={eventList} />
@@ -174,6 +157,9 @@ export const MyCalendar = ({onShowFormView, targetEvent}: EventFormProps) => {
           <button>
             <Link to="/timeline">サンプルタイムライン</Link>
           </button>
+          {/* {event && <MyTimeline
+            onShowFormView={targetEvent => setEvent(targetEvent)}
+            targetEvent={event} />} */}
           {/* 【CSS】overflowの使い方解説！要素のはみ出し解決
            https://zero-plus.io/media/overflow/ */}
           <chakra.div overflowX="hidden">
@@ -186,18 +172,18 @@ export const MyCalendar = ({onShowFormView, targetEvent}: EventFormProps) => {
               startAccessor="start"
               endAccessor="end"
               onNavigate={onNavigate}
-              eventPropGetter={eventPropGetter}
+              // eventPropGetter={eventPropGetter}
               // onDragStart={(...args) => console.log(args)}
               onDragStart={onDragStart}
-              onEventDrop={onEventDrop}
-              onEventResize={onEventResize}
+              onEventDrop={dragStart === false ? undefined : onEventDrop}
+              onEventResize={dragStart === false ? undefined : onEventResize}
               resizable
-              // onSelectEvent={handleSelectEvent}
-              onDoubleClickEvent={handleSelectEvent}
+              onSelectEvent={handleSelectEvent}
+              // onDoubleClickEvent={handleSelectEvent}
               onSelectSlot={onSelectSlot}
-              selectable='ignoreEvents'
+              selectable
               onView={onView}
-              components={customComponents}
+              // components={customComponents}
               views={views}
             />
           </chakra.div>

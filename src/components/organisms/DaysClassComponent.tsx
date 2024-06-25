@@ -5,7 +5,7 @@ import { NavigateAction } from 'react-big-calendar';
 import { DateLocalizer, Navigate, TitleOptions } from 'react-big-calendar';
 import moment from 'moment';
 
-import { SampleTimeline } from '../pages/TLComponent';
+import { SampleTimeline } from '../pages/SampleTLComponent';
 import { TimelineEventProps } from '../../lib/TimelineType';
 
 export const MyWeek = () => {
