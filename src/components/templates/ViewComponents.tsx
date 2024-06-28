@@ -11,6 +11,7 @@ import { useEventsQuery } from '../../resources/queries';
 // import { EventItem } from '../../lib/EventItem';
 import { TimelineEventProps } from '../../lib/TimelineType';
 import { OnSelectSlot } from "../../sample/SelectSlot";
+import { CalendarWrapper } from "../pages/CalendarWrapperComponent";
 
 export const RoutesComponent = () => {
 	const [event, setEvent] = useState<TimelineEventProps>();
@@ -25,14 +26,10 @@ export const RoutesComponent = () => {
           <EventsContextProvider>
             {/* <BrowserRouter> */}
               <Routes>
-                <Route path="/auth" element={<AuthLeavePage />} />             
-                <Route path="/calendar"	element={<MyCalendar
+                <Route path="/auth" element={<AuthLeavePage />} />
+                <Route path="/calendar"	element={<CalendarWrapper
                     onShowFormView={(event: TimelineEventProps) => setEvent(event)}
-                    targetEvent={event!} />}
-                  />
-                <Route path="/timeline" element={<MyTimeline
-                    onShowFormView={(event: TimelineEventProps) => setEvent(event)}
-                    targetEvent={event!} />}
+                    targetEvent={event} />}
                   />
                 <Route path="/slot" element={<OnSelectSlot />} />
               </Routes>

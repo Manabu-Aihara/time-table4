@@ -1,4 +1,4 @@
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, useEffect, useRef } from 'react';
 import { ChakraProvider, Box, Text, Input, Button } from '@chakra-ui/react';
 import moment from 'moment';
 
@@ -6,12 +6,14 @@ import { useEventsState } from '../../hooks/useContextFamily';
 import { useCreateMutation } from '../../hooks/useEventMutation';
 import { AuthInfoProp } from '../../lib/TimelineType';
 
-type TitleInputProps = {
-  authInfo: AuthInfoProp;
-  slotStartTime: Date;
+interface TitleInputProps {
+  authInfo: AuthInfoProp,
+  slotStartTime: Date,
+  closeDialog: () => void
 }
 
-export const TitleInput = ({authInfo, slotStartTime}: TitleInputProps) => {
+export const TitleInput = ({
+  authInfo, slotStartTime, closeDialog}: TitleInputProps) => {
 // export const TitleInput = (jsonAuth: JSONValue) => {
   // const objJson = safeJsonParse(jsonAuth!.toString());
   // console.log(`In modal auth info: ${JSON.stringify(auth)}`);
@@ -21,6 +23,11 @@ export const TitleInput = ({authInfo, slotStartTime}: TitleInputProps) => {
   const [title, setTitle] = useState<string>('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // setTitle(prevTitle => {
+    //     prevTitle = e.target.value;
+    //     return prevTitle;
+    //   }
+    // );
     setTitle(e.target.value);
   };
 
@@ -41,10 +48,15 @@ export const TitleInput = ({authInfo, slotStartTime}: TitleInputProps) => {
         start_time: moment(startDT),
         end_time: moment(endDT)
       });
-      // eventsState.concat(eventItem!);
     }
+    closeDialog();
   }
+  // なせこれが必要となった!?
+  useEffect(() => {
+    setTitle('');
+  }, [closeDialog]);
 
+  console.log('State title: ', title);
   return (
     <ChakraProvider>
       <Box>
@@ -56,11 +68,12 @@ export const TitleInput = ({authInfo, slotStartTime}: TitleInputProps) => {
           // {...inputAttr}
           placeholder="やることを入力してください"
           onChange={handleChange}
+          // なせこれが必要となった!?
+          value={title}
         />
         <Button onClick={onSubmit}>追加</Button>
         {/* </form> */}
         <Text></Text>
-        {/* <button onClick={close}>close</button> */}
       </Box>
     </ChakraProvider>
   );

@@ -41,14 +41,14 @@ describe.skip('DnDアップデート用ボタン', () => {
       <QueryClientProvider client={queryClient}>
         <TimesUpdateButton timeChangeEvents={items} />
       </QueryClientProvider>);
-  rerenderResult = render(
-    <QueryClientProvider client={queryClient}>
-      <TimesUpdateButton timeChangeEvents={[]} />
-    </QueryClientProvider>);
+    rerenderResult = render(
+      <QueryClientProvider client={queryClient}>
+        <TimesUpdateButton timeChangeEvents={[]} />
+      </QueryClientProvider>);
   });
 
   test('まずはレンダー', () => {
-    expect(renderResult.getByText('変更回数: 3')).toBeInTheDocument();
+    expect(renderResult.getByRole('変更回数: 3')).toBeInTheDocument();
   });
   test('buttonロールであること', () => {
     expect(renderResult.getAllByRole('button')[1].textContent).toBe('リセット');

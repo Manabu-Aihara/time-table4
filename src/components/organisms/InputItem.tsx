@@ -11,9 +11,9 @@ import { boundaryTop, boundaryY, buttonPosition } from '../sprinkles.responsive.
 import { formParent } from './InputItem.css';
 import { EventUpdateButtons } from '../molecules/EventUpdateButtonComponent';
 
-type InputEventProps = {
-	selectedEvent: TimelineEventProps;
-	closeClick: () => void;
+interface InputEventProps {
+	selectedEvent: TimelineEventProps,
+	closeClick: () => void
 }
 
 type OptionType = {

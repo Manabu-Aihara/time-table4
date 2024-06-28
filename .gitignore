@@ -31,3 +31,5 @@ package-lock.json
 _tank.txt
 src.default/
 src/sample/
+
+*storybook.log

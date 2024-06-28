@@ -19,7 +19,7 @@ export const AuthLeavePage = () => {
 
   useEffect(() => {
     const f = async () => {
-      data && navigate(`/timeline?userID=${JSON.parse(strData).staff_id}`);
+      data && navigate(`/calendar?userID=${JSON.parse(strData).staff_id}`);
     }
     f();
   }, [data]);

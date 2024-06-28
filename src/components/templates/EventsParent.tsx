@@ -59,11 +59,11 @@ export const EventsContextProvider = ({ children }: { children: ReactNode }) => 
   // }, []);
 
   // const { data } = useEventsQuery();
-  const { data, error } = useEventsQueryForTl();
-  console.log(`Parent json: ${JSON.stringify(data)}`);
+  const { data } = useEventsQueryForTl();
+  // console.log(`Parent json: ${JSON.stringify(data)}`);
   const toString = Object.prototype.toString;
   // toString.call(new Date()); // [object Date]
-  console.log('Parent end type: ', toString.call(moment.isMoment(data?.slice(-1)[0].end_time)));
+  console.log('End type is moment?: ', moment.isMoment(data?.slice(-1)[0].end_time));
   const state: TimelineEventPropsList = [initialData].concat(data!);
   
   return (
