@@ -51,7 +51,7 @@ export const TitleInput = ({
     }
     closeDialog();
   }
-  // なせこれが必要となった!?
+  // なぜこれが必要となった!?
   useEffect(() => {
     setTitle('');
   }, [closeDialog]);
@@ -68,7 +68,7 @@ export const TitleInput = ({
           // {...inputAttr}
           placeholder="やることを入力してください"
           onChange={handleChange}
-          // なせこれが必要となった!?
+          // なぜこれが必要となった!?
           value={title}
         />
         <Button onClick={onSubmit}>追加</Button>

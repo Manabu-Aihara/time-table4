@@ -47,7 +47,7 @@ type PickTypeId = Pick<TimelineItem<Date>, 'id' | 'group'>;
 type NumberOfId = PropertyToNumber<PickTypeId>;
 type pickId = NumberOfId['id'];
 type pickGroup = NumberOfId['group'];
-const y : NumberOfId = {id: 123, group: 456}
+const x: NumberOfId = {id: 123, group: 456}
 
 export type TimelineEventProps = Merge<NewTimelineItem, {
 	// id: pickId;
@@ -66,6 +66,7 @@ export type AuthInfoProp =
 	{ type: 'auth'; authId: number; group: number }
 	| { type: 'token'; accessToken: string };
 
+// 以下、とりあえず使ってみる
 type Option<V> =
 { type: V; authId: number; group: number }
 | { type: V; accessToken: string };
@@ -80,5 +81,7 @@ export type AuthGuardContext = ExpectedAuth<Option<AuthInfoProp>>;
 const opt1: AuthGuardContext = {type: 'token', accessToken: ''};
 const opt2: AuthGuardContext = {type: 'auth', authId: 0, group: 100};
 
-// type DecentEventWrapperProps = Omit<EventWrapperProps<TimelineEventProps>,
-// 	'continuesAfter' | 'continuesPrior' | 'isBackgroundEvent' | 'resizable'>;
+export interface EventFormProps {
+  targetEvent?: TimelineEventProps,
+	onShowFormView: (targetEvent: TimelineEventProps) => void
+}

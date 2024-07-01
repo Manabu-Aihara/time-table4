@@ -4,10 +4,10 @@ import withDragAndDrop, { OnDragStartArgs } from 'react-big-calendar/lib/addons/
 import { chakra } from '@chakra-ui/system';
 
 import { useEventsState } from '../../hooks/useContextFamily';
-import { useDialog } from "../../hooks/useDialog";
 import { useMouseEvents } from '../../hooks/useMouseHandle';
+import { useCallingEditForm } from '../../hooks/useCallingForm';
 import localizer from '../../lib/Localization';
-import { TimelineEventProps } from '../../lib/TimelineType';
+import { TimelineEventProps, EventFormProps } from '../../lib/TimelineType';
 import { CustomContainerWrapper, CustomEventWrapper, CustomEventCard } from '../molecules/WrapComponent';
 import { TimesUpdateButton } from '../molecules/TimeUpdateButtonComponent';
 import { MyWeek } from '../organisms/DaysClassComponent';
@@ -17,14 +17,15 @@ import { useAuthInfo } from '../../hooks/useAuthGuard';
 
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css';
+import { AddChildForm } from '../organisms/InputItem';
 
 interface SelectEventProp {
   handleSelectEvent: (
     selectEvent: TimelineEventProps,
-    handleEvent: React.SyntheticEvent<HTMLElement, Event>) => void
+    handleEvent?: React.SyntheticEvent<HTMLElement, Event>) => void
 }
 
-export const MyCalendar = ({handleSelectEvent}: SelectEventProp) => {
+export const MyCalendar = () => {
   const state = useEventsState();
 
   /**
@@ -92,6 +93,11 @@ export const MyCalendar = ({handleSelectEvent}: SelectEventProp) => {
     console.log('今の状態 Slot: ', countRef.current, clickRef.current);
   }, []);
 
+  const [selectEvent, setSelectEvent] = useState<TimelineEventProps>();
+  const {handleSelectEvent, EditForm, modal} = useCallingEditForm({onShowFormView(targetEvent){
+    setSelectEvent(targetEvent)
+  }});
+
   /**
    * Wrapper component
    */
@@ -131,6 +137,11 @@ export const MyCalendar = ({handleSelectEvent}: SelectEventProp) => {
           views={views}
         />
       </chakra.div>
+      {modal.showModal &&
+        <EditForm>
+          <AddChildForm selectedEvent={selectEvent!}
+            closeClick={modal.closeInputForm} />
+        </EditForm>}
       <DialogOnSlot slotInfo={slotInfoState} />
     </chakra.div>
   );
