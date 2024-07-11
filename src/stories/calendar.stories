@@ -1,0 +1,11 @@
+import type { Meta, StoryObj } from "@storybook/react";
+
+import { MyCalendar } from "../components/pages/CalendarComponent";
+import { exItems } from "../lib/SampleState";
+
+const meta: Meta<typeof MyCalendar> = {
+  component: MyCalendar
+}
+export default meta;
+
+type Story = StoryObj<typeof MyCalendar>;

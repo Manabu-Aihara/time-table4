@@ -16,14 +16,10 @@ describe.skip('DnDアップデート用ボタン', () => {
       <QueryClientProvider client={queryClient}>
         <TimesUpdateButton timeChangeEvents={exItems} />
       </QueryClientProvider>);
-    rerenderResult = render(
-      <QueryClientProvider client={queryClient}>
-        <TimesUpdateButton timeChangeEvents={[]} />
-      </QueryClientProvider>);
   });
 
   test('まずはレンダー', () => {
-    expect(renderResult.getByRole('変更回数: 3')).toBeInTheDocument();
+    expect(renderResult.getByText('変更回数: 3')).toBeInTheDocument();
   });
   test('buttonロールであること', () => {
     expect(renderResult.getAllByRole('button')[1].textContent).toBe('リセット');
@@ -31,7 +27,9 @@ describe.skip('DnDアップデート用ボタン', () => {
   test('ボタンクリック', () => {
     // const clickMock = vi.fn(() => {return rerenderResult});
     const resetButton = renderResult.getByRole('button', {name: 'リセット'});
-    resetButton.click();
-    // expect(renderResult.getByText('')).toBeInTheDocument();
+    const countText = renderResult.getByText('変更回数: 3');
+    fireEvent.click(resetButton);
+    // expect(resetButton).toBeCalled();
+    expect(countText.textContent).toBe('');
   });
 });

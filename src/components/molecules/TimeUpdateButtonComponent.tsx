@@ -1,16 +1,12 @@
-import { forwardRef, Ref, useCallback } from "react";
+import { forwardRef, Ref } from "react";
 import { ChakraProvider, Box, Button, Text } from "@chakra-ui/react";
 
 import { useUpdateDateListMutation } from "../../hooks/useEventMutation";
-import { TimelineEventProps } from "../../lib/TimelineType";
+import { ChangingButtonProp } from "../../lib/TimelineType";
 import { updateButtonArea } from "./TimeUpdateButtonComponent.css";
 
-type ChangingProp = {
-  timeChangeEvents: TimelineEventProps[]
-}
-
 export const TimesUpdateButton = forwardRef(
-  ({timeChangeEvents}: ChangingProp, buttonRef: Ref<HTMLDivElement>) => {
+  ({timeChangeEvents}: ChangingButtonProp, buttonRef: Ref<HTMLDivElement>) => {
   console.log(`Event list =: `, timeChangeEvents);
 
   // idのだけの配列

@@ -1,7 +1,8 @@
-import { useState, useRef, useCallback, useEffect, PropsWithChildren } from "react";
+import { useState, useRef, useCallback, PropsWithChildren } from "react";
 import { chakra } from "@chakra-ui/system";
 
 import { TimelineEventProps, EventFormProps } from "../lib/TimelineType";
+import { topWidth } from "../components/sprinkles.responsive.css";
 
 export const useCallingEditForm = ({onShowFormView, targetEvent}: EventFormProps) => {
 
@@ -20,21 +21,12 @@ export const useCallingEditForm = ({onShowFormView, targetEvent}: EventFormProps
   }
 
   const countRef = useRef<number | undefined>();
-  const handleSelectEvent = useCallback(
-    (callingEvent: TimelineEventProps, e?: React.SyntheticEvent<HTMLElement, Event>) =>
-  {
-    // console.log(`Event motion: ${e.type}`);
+  const handleSelectEvent = useCallback((callingEvent: TimelineEventProps) => {
     onShowFormView(callingEvent);
     countRef.current = undefined;
     console.log('切り替わりました Handle: ', countRef.current);
     setShowModal(true);
   }, []);
-
-	const divRef = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    // console.log('Effect通りました', eventFlag);
-    divRef.current?.scrollIntoView({behavior: 'smooth'});
-  }, [targetEvent]);
 
   const closeInputForm = () => {
     setShowModal(false);
@@ -43,6 +35,7 @@ export const useCallingEditForm = ({onShowFormView, targetEvent}: EventFormProps
   const EditForm: React.FC<PropsWithChildren> = ({children}) => {
     return (
       <chakra.div flexShrink="0" scrollSnapAlign="start"
+        className={topWidth}
         onClick={handleOuterFormBubbling}>
           {children}
       </chakra.div>

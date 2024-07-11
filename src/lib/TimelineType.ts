@@ -85,3 +85,11 @@ export interface EventFormProps {
   targetEvent?: TimelineEventProps,
 	onShowFormView: (targetEvent: TimelineEventProps) => void
 }
+
+export interface ChangingButtonProp {
+  timeChangeEvents: TimelineEventProps[],
+}
+
+export interface CalendarActionProps {
+  setTimeChangeEvents?: (movedEvents: TimelineEventProps[]) => void
+}

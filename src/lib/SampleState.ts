@@ -28,8 +28,8 @@ export const exItems: TimelineEventProps[] = [
   },
   {
     id: 3,
-    group: 6,
-    staff_id: 502,
+    group: 4,
+    staff_id: 500,
     title: 'item 3',
     start_time: moment().add(2, 'hour'),
     end_time: moment().add(3, 'hour')

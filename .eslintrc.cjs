@@ -4,6 +4,10 @@ module.exports = {
   extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'plugin:react-hooks/recommended', 'plugin:storybook/recommended'],
   ignorePatterns: ['dist', '.eslintrc.cjs'],
   parser: '@typescript-eslint/parser',
+  // parserOptions: {
+  //   "parser": "@babel/eslint-parser",
+  //   "requireConfigFile": false
+  // },
   plugins: ['react-refresh'],
   rules: {
     'react-refresh/only-export-components': [
@@ -11,6 +15,7 @@ module.exports = {
       { allowConstantExport: true },
     ],
     "@typescript-eslint/no-unused-vars": "off",
-    "react-hooks/exhaustive-deps": "off"
+    // "@typescript-eslint/no-var-requires": "off",
+    "react-hooks/exhaustive-deps": "off",
   },
 }

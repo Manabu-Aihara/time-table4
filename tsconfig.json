@@ -25,7 +25,6 @@
   },
   "include": ["src",
     "node_modules/vitest/global.d.ts",
-    "vite.config.ts",
     "src/tests/vitest-setup.ts"
   ],
   "references": [{ "path": "./tsconfig.node.json" }]

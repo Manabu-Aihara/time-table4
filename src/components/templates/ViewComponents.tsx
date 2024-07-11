@@ -24,13 +24,14 @@ export const RoutesComponent = () => {
       <AuthProvider>
         <AuthAxios>
           <EventsContextProvider>
-            {/* <BrowserRouter> */}
+            {/* <BrowserRouter>
               <Routes>
                 <Route path="/auth" element={<AuthLeavePage />} />
                 <Route path="/calendar"	element={<CalendarWrapper />} />
                 <Route path="/slot" element={<OnSelectSlot />} />
               </Routes>
-            {/* </BrowserRouter> */}
+            </BrowserRouter> */}
+            <CalendarWrapper />
           </EventsContextProvider>
         </AuthAxios>
       </AuthProvider>
