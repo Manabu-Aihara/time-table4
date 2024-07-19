@@ -23,6 +23,7 @@ dist-ssr
 *.sln
 *.sw?
 
+# 私の都合
 env/.env
 yarn.lock
 package-lock.json
@@ -33,3 +34,12 @@ src.default/
 src/sample/
 
 *storybook.log
+
+# 依存パッケージを .yarn ディレクトリー配下にキャッシュ
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions

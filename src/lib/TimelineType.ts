@@ -1,6 +1,7 @@
-import { Event, EventWrapperProps } from 'react-big-calendar';
+import { Event, EventWrapperProps, SlotInfo } from 'react-big-calendar';
 import moment from 'moment';
 import { TimelineItemBase as TimelineItem } from 'react-calendar-timeline';
+import { UseQueryResult } from '@tanstack/react-query';
 
 // type CustomEvent = Omit<Event, 'title'>
 export interface EventItem extends Event {
@@ -67,12 +68,12 @@ export type AuthInfoProp =
 	| { type: 'token'; accessToken: string };
 
 // 以下、とりあえず使ってみる
-type Option<V> =
-{ type: V; authId: number; group: number }
-| { type: V; accessToken: string };
+type Option<T> =
+{ type: T; authId: number; group: number }
+| { type: T; accessToken: string };
 
 /**
- * AuthGuardContext<V>: Option<T>を受け取って、渡されたのがAuth型なら中身の値の型を返す。
+ * AuthGuardContext<V>: Option<T>を受け取って、渡されたのがAuthInfoProp型なら中身の値の型を返す。
  * 渡されたのがnumber型ならundefinedを返す。
  */
 type ExpectedAuth<V extends Option<unknown>> = V extends Option<infer R> ? R : never;
@@ -80,6 +81,12 @@ type ExpectedAuth<V extends Option<unknown>> = V extends Option<infer R> ? R : n
 export type AuthGuardContext = ExpectedAuth<Option<AuthInfoProp>>;
 const opt1: AuthGuardContext = {type: 'token', accessToken: ''};
 const opt2: AuthGuardContext = {type: 'auth', authId: 0, group: 100};
+
+type ExpectedQuery<V extends UseQueryResult> = V extends UseQueryResult<infer R> ? R : never;
+export type ExcludeQuery = ExpectedQuery<UseQueryResult>
+const h: ExcludeQuery = 'lmn';
+const i = String(h);
+
 
 export interface EventFormProps {
   targetEvent?: TimelineEventProps,
@@ -91,5 +98,6 @@ export interface ChangingButtonProp {
 }
 
 export interface CalendarActionProps {
-  setTimeChangeEvents?: (movedEvents: TimelineEventProps[]) => void
+  onTimeChangeEvents?: (movedEvents: TimelineEventProps[]) => void
+	onSlotInfo?: (selectedSlot: SlotInfo) => void
 }

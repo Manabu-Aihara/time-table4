@@ -17,5 +17,9 @@ module.exports = {
     "@typescript-eslint/no-unused-vars": "off",
     // "@typescript-eslint/no-var-requires": "off",
     "react-hooks/exhaustive-deps": "off",
+    // default export を許可する
+    "import/no-default-export": "off",
+    // devDependencies からの import を許可する
+    "import/no-extraneous-dependencies": "off"
   },
 }

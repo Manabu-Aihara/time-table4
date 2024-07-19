@@ -23,9 +23,16 @@ import cx from 'classnames';
 import { topWidth } from '../sprinkles.responsive.css';
 import { gridArea } from './CalendarComponent.css';
 
-export const MyCalendar = ({setTimeChangeEvents}: CalendarActionProps) => {
+export const MyCalendar = (
+  {
+    onTimeChangeEvents,
+    onSlotInfo
+  }: CalendarActionProps) => {
   const state = useEventsState();
 
+  /**
+   * EventPropGetter
+   */
   const { data } = useSearchQuery('userID');
   const eventPropGetter = (event: TimelineEventProps) => {
     const uncontrolStyle: CSSProperties = {
@@ -52,7 +59,7 @@ export const MyCalendar = ({setTimeChangeEvents}: CalendarActionProps) => {
     const { event, action } = args;
     console.log('Auth info: ', typeof authId);
     console.log('Staff: ', event.staff_id);
-    if(event.staff_id != authId){
+    if(event.staff_id !== Number(authId)){
       console.log('ちがうとこ通ります', action);
       setDragStart(false);
     }else{
@@ -67,7 +74,7 @@ export const MyCalendar = ({setTimeChangeEvents}: CalendarActionProps) => {
   const { onEventResize, onEventDrop, eventList, prevRef } = useMouseEvents();
   console.log(`Remained prev data: ${JSON.stringify(prevRef.current)}`);
 
-  setTimeChangeEvents?.(eventList);
+  onTimeChangeEvents?.(eventList);
   state.map((evt, j) => {
     // if(prevRef){
       if(prevRef.current?.isDraggable === true && prevRef.current.id === evt.id){
@@ -77,7 +84,7 @@ export const MyCalendar = ({setTimeChangeEvents}: CalendarActionProps) => {
       }
     // }
   });
-  // console.log(`Old state: ${JSON.stringify(state)}`);
+  console.log(`Old state: ${JSON.stringify(state)}`);
   const newState = eventList ? state.concat(eventList) : state;
   console.log(`Expect update events: ${JSON.stringify(eventList)}`);
 
@@ -116,6 +123,7 @@ export const MyCalendar = ({setTimeChangeEvents}: CalendarActionProps) => {
     countRef.current = clickRef.current;
     // console.log('今の状態 Slot: ', countRef.current, clickRef.current);
   }, []);
+  onSlotInfo?.(slotInfoState!);
 
   const [allDayEvent, setAllDayEvent] = useState<TimelineEventProps>();
   const allowAllDay = (event: TimelineEventProps) => {
@@ -184,7 +192,7 @@ export const MyCalendar = ({setTimeChangeEvents}: CalendarActionProps) => {
           />
         </chakra.div>
       </chakra.div>
-      <DialogOnSlot slotInfo={slotInfoState} />
+      {/* <DialogOnSlot slotInfo={slotInfoState} /> */}
       {modal.showModal &&
         <EditForm>
           <AddChildForm selectedEvent={selectEvent!} ref={divRef}
