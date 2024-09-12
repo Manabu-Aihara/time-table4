@@ -13,14 +13,17 @@ import { flexXmandatory } from './CalendarComponent.css';
 // import { eventData } from '../../lib/SampleState';
 
 export const CalendarWrapper = () => {
+  // React コンポーネント間でデータ・イベントを受け渡す方法
+  // :子コンポーネントから親コンポーネントにデータを受け渡す方法
+  // https://www.freecodecamp.org/japanese/news/pass-data-between-components-in-react/
   const [movedEvents, setMovedEvents] = useState<TimelineEventProps[]>([]);
   const [slotInfo, setSlotInfo] = useState<SlotInfo>();
 
   return (
     <chakra.div className={flexXmandatory}>
-      {/* <button>
+      <button>
         <Link to="/timeline">サンプルタイムライン</Link>
-      </button> */}
+      </button>
       {/* {event && <MyTimeline
         onShowFormView={targetEvent => setEvent(targetEvent)}
         targetEvent={event} />} */}

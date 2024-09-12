@@ -93,8 +93,8 @@ export const useEventsQueryForTl = () => {
       // 日本標準時
       start: item.start = moment(item.start).toDate(),
       end: item.end = moment(item.end).toDate(),
-      start_time: item.start_time = moment(item.start).add(9, 'hours'),
-      end_time: item.end_time = moment(item.end).add(9, 'hours'),
+      start_time: item.start_time = moment(item.start),//.add(9, 'hours'),
+      end_time: item.end_time = moment(item.end)//.add(9, 'hours'),
       // item
     })), [data])
   }

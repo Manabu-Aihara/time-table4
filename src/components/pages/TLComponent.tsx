@@ -82,7 +82,7 @@ export const MyTimeline = ({onShowFormView, targetEvent}: EventFormProps) => {
                   // onClick: () => handleSelectEvent(item)
                   itemProps: {
                     onDoubleClick: (e) => handleSelectEvent(item, e),
-                  },
+                  },                  
                 }
               );
             })}
@@ -92,6 +92,8 @@ export const MyTimeline = ({onShowFormView, targetEvent}: EventFormProps) => {
             // visibleTimeEnd={moment().add(-12, 'hours')}
             minZoom={24 * 60 * 60 * 1000}
             maxZoom={0.5 * 365.24 * 86400 * 1000}
+            canMove={true}
+            canResize={'both'}
           />
         </chakra.div>
         <chakra.div flexShrink="0" scrollSnapAlign="start"

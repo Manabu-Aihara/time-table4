@@ -20,16 +20,16 @@ type Story = StoryObj<typeof DnDCalendar>;
 
 export const Standard: Story = {
   args: {localizer: localizer, events: exEvents, defaultView: 'day'},
-  // play: async ({ canvasElement }) => {
-  //   const canvas = within(canvasElement);
-  //   const buttonElements = await canvas.getAllByRole('button');
-  //   const threeElms = buttonElements.filter(value => {
-  //     if(value.className == 'rbc-event'){
-  //       return value;
-  //     }
-  //   });
-  //   await threeElms;
-  // }
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const buttonElements = await canvas.getAllByRole('button');
+    const expectElms = buttonElements.filter(value => {
+      if(value.className == 'rbc-event'){
+        return value;
+      }
+    });
+    expect(expectElms.length).toBe(3);
+  }
 }
 
 export const Primary: Story = {
@@ -37,8 +37,9 @@ export const Primary: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const buttonElements = await canvas.getAllByRole('button');
-    await userEvent.click(await buttonElements[1]);
-    // expect(canvas.getByText('Thursday Jul 18')).toBeInTheDocument();
-    // const textElement = canvas.getAllByText('Wednesday Jul 17')
+    // await act(() => {
+    await userEvent.click(buttonElements[1]);
+    // });
+    expect(canvas.getByText(/Thursday Jul 25/i, {exact: false})).toBeInTheDocument();
   }
 }

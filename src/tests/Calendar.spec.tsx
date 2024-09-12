@@ -1,5 +1,6 @@
-import { render, waitFor } from '@testing-library/react';
+import { act, render, waitFor } from '@testing-library/react';
 import { composeStories } from '@storybook/react';
+import { within } from "@storybook/test";
 
 import { Calendar } from "react-big-calendar";
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop'
@@ -40,10 +41,18 @@ describe('Calendar', () => {
     expect(expectElms.length).toBe(3);
   });
   it('昨日の日付を見る', async () => {
-    const { getAllByText } = render(Primary());
-    // expect(getAllByText('Thursday Jul 18')).toBeInTheDocument();
-    render(<Primary />);
-    // await stories.Primary.play;
-    // expect(screen.getByText(/Wendesday Jul 17/i, {exact: false})).toBeInTheDocument();
+    const { container, getByText } = render(Primary());
+    // const screen = render(Primary());
+    // const spanElm = await container.querySelector('.rbc-toolbar-label') as HTMLSpanElement;
+    // const yesterday = await within(spanElm).getByText('Thursday Jul 25');
+    await act(() => {
+      Primary.play?.({ canvasElement: container});
+    });
+    await waitFor(() => {
+      expect(getByText(/Thursday Jul 25/i, {exact: false})).toBeInTheDocument();
+      // expect(yesterday.textContent).toBeInTheDocument();
+    });
+    // console.log('Text elements: ', container.getElementsByClassName('rbc-toolbar-label')[0]);
+    // expect(container.getElementsByClassName('rbc-toolbar-label')).toHaveTextContent('Monday Jul 22');
   });
 });

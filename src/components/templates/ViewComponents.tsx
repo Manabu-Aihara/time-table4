@@ -14,7 +14,7 @@ import { OnSelectSlot } from "../../sample/SelectSlot";
 import { CalendarWrapper } from "../pages/CalendarWrapperComponent";
 
 export const RoutesComponent = () => {
-	// const [event, setEvent] = useState<TimelineEventProps>();
+	const [event, setEvent] = useState<TimelineEventProps>();
   // const todos = useEventsQuery();
 
   // console.log(`View: ${JSON.stringify(event)}`);
@@ -28,6 +28,10 @@ export const RoutesComponent = () => {
               <Routes>
                 <Route path="/auth" element={<AuthLeavePage />} />
                 <Route path="/calendar"	element={<CalendarWrapper />} />
+                <Route path="/timeline" element={<MyTimeline
+                  onShowFormView={(event: TimelineEventProps) => setEvent(event)}
+                  targetEvent={event!} />
+                } />
                 {/* <Route path="/slot" element={<OnSelectSlot />} /> */}
               </Routes>
             {/* </BrowserRouter> */}

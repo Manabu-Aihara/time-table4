@@ -84,7 +84,7 @@ export const MyCalendar = (
       }
     // }
   });
-  console.log(`Old state: ${JSON.stringify(state)}`);
+  // console.log(`Old state: ${JSON.stringify(state)}`);
   const newState = eventList ? state.concat(eventList) : state;
   console.log(`Expect update events: ${JSON.stringify(eventList)}`);
 
@@ -128,6 +128,7 @@ export const MyCalendar = (
   const [allDayEvent, setAllDayEvent] = useState<TimelineEventProps>();
   const allowAllDay = (event: TimelineEventProps) => {
     setAllDayEvent(event);
+    console.log(allDayEvent);
     return true;
   }
 
@@ -163,7 +164,7 @@ export const MyCalendar = (
         https://zero-plus.io/media/overflow/ */}
         <chakra.div overflowX="hidden">
           <DnDCalendar
-            allDayAccessor='allDay'
+            // allDayAccessor={allowAllDay}
             date={displayDate}
             localizer={localizer}
             events={newState}
