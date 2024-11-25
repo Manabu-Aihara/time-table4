@@ -20,10 +20,23 @@ export const fetchEventsData = async (postToken: string): Promise<TimelineEventP
 	// .catch(err => console.log(err));
 }
 
+export const fetchEventDataForTT = async (postToken: string, staffId: string): Promise<TimelineEventProps[]> => {
+	const { data } = await basicAxios.request<TimelineEventProps[]>({
+		url: `/event/user/${staffId}`,
+		method: 'GET',
+		headers: {
+			'Access-Control-Allow-Origin': '*',
+			'Authorization': `Bearer ${postToken}`,
+			'credentials': 'include' // ここを追加。
+		}
+	})
+	return data;
+}
+
 // とりあえず、値が取れるからこっち採用
 const cache = new Map();
 
-export const fetchGetAuthResponse = async (postToken: string): Promise<AxiosResponse<AuthInfoProp>> => {
+export const fetchAuthResponse = async (postToken: string): Promise<AxiosResponse<AuthInfoProp>> => {
   const authResponse = await basicAxios.post<AxiosResponse>('/timetable/inquiry', postToken,
 		{
 			headers: {

@@ -40,6 +40,6 @@ export const Primary: Story = {
     // await act(() => {
     await userEvent.click(buttonElements[1]);
     // });
-    expect(canvas.getByText(/Thursday Jul 25/i, {exact: false})).toBeInTheDocument();
+    expect(canvas.getByText(/Monday Oct 07/i, {exact: false})).toBeInTheDocument();
   }
 }

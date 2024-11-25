@@ -5,9 +5,10 @@ import { useLocation } from "react-router-dom";
 import moment from 'moment';
 
 import { TimelineEventProps, AuthInfoProp } from "../lib/TimelineType";
-import { fetchEventsData, fetchGetAuthResponse, refresh, requestGroup } from "./fetch";
+import { fetchEventDataForTT, fetchEventsData, fetchAuthResponse, refresh, requestGroup } from "./fetch";
 import { eventKeys, authKeys } from "./cache";
 import { useAuthContext } from "../hooks/useContextFamily";
+import { useAuthInfo } from "../hooks/useAuthGuard";
 
 export const useSearchQuery = (searchKey: string) => {
   const search = useLocation().search;
@@ -22,23 +23,28 @@ export const useSearchQuery = (searchKey: string) => {
 export const useRefreshQuery = () => {
   const authContext = useAuthContext();
   const tokenContext = authContext.type === 'token' ? authContext.accessToken : undefined;  
-
-  return useQuery({
+  
+    return useQuery({
     queryKey: authKeys.verify(tokenContext!),
     queryFn: () => refresh(tokenContext!)
   });
 }
 
-export const useAuthQuery = (searchToken: string) => {
+export const useAuthQuery = () => {
+  const authContext = useAuthContext();
+  const tokenContext = authContext.type === 'token' ? authContext.accessToken : undefined;  
+  
   return useQuery({
-    queryKey: authKeys.verify(searchToken),
-    queryFn: () => fetchGetAuthResponse(searchToken),
-    // select: useCallback((resp: AuthInfoProp) => {
-    //   if(resp.data.type === 'auth')
+    queryKey: authKeys.verify(tokenContext!),
+    queryFn: () => fetchAuthResponse(tokenContext!),
+    // 型 'Promise<AxiosResponse<AuthInfoProp, any>>' を
+    // 型 'AuthInfoProp | Promise<AuthInfoProp>' に割り当てることはできません。
+    // select: useCallback((data: AuthInfoProp) => {
+    //   if(data.type === 'auth')
     //     return {
-    //       authId: resp.data.authId,
-    //       group: resp.data.group,
-    //       ...resp
+    //       ...data,
+    //       authId: data.authId,
+    //       group: data.group,
     //     }
     // }, [])
   });
@@ -61,7 +67,7 @@ export const useEventsQuery = () => {
   const { data: searchQueryToken } = useSearchQuery('token');
   
   const { data, ...queryInfo } = useQuery({
-    queryKey: eventKeys.list(),
+    queryKey: eventKeys.all(),
     queryFn: () => fetchEventsData(searchQueryToken!)
   })
   return {
@@ -78,11 +84,33 @@ export const useEventsQuery = () => {
   }
 }
 
-export const useEventsQueryForTl = () => {
+export const useUserEventQuery = () => {
+  const authContext = useAuthContext();
+  const tokenContext = authContext.type === 'token' ? authContext.accessToken : undefined;
+  const { data: searchUserId } = useSearchQuery('userID');
+  
+  const { data, ...queryInfo } = useQuery({
+    queryKey: eventKeys.user(searchUserId!),
+    queryFn: () => fetchEventDataForTT(tokenContext!, searchUserId!)
+  })
+  return {
+    ...queryInfo,
+    data: useMemo(() => data?.map(item => ({
+      ...item,
+      // 日本標準時
+      start: item.start = moment(item.start).toDate(),
+      end: item.end = moment(item.end).toDate(),
+      // summary: item.summary = 'sheep',
+      // ...item
+    })), [data])
+  }
+}
+
+export const useEventsQueryForTL = () => {
   const { data: searchQueryToken } = useSearchQuery('token');
   
   const { data, ...queryInfo } = useQuery({
-    queryKey: eventKeys.list(),
+    queryKey: eventKeys.all(),
     queryFn: () => fetchEventsData(searchQueryToken!)
   })
   // return { data, queryInfo }

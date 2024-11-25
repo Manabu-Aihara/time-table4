@@ -189,7 +189,7 @@ export const MyCalendar = (
               console.log('Range: ', range);
             }}
             // components={customComponents}
-            views={views}
+            views={views.view}
           />
         </chakra.div>
       </chakra.div>

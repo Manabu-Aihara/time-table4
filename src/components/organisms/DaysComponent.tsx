@@ -63,15 +63,15 @@ MyWeek.title = (date: Date, options: TitleOptions): string => {
     + ' — ' + options.formats.concat(rest.pop()!.toISOString());
 }
   
-export const {views, ...otherprops} = {
-// const views = {
-  views: {
+// export const {views, ...otherprops} = {
+export const views = {
+  view: {
     month: true,
     week: true,
     day: true,
     agenda: true
   },
-  // ... other props
+  // ...otherprops,
 };
 
 // export default views;

@@ -4,13 +4,14 @@ import { useQueryClient } from "@tanstack/react-query";
 // ① Query Key
 // queries.ts がある場合に必要に応じて宣言
 export const eventKeys = {
-  all: ["events"] as const,
-  list: () => [...eventKeys.all, "list"] as const,
-  groupList: (group?: number | string) => [...eventKeys.list(), group] as const,
+  event: ["event"] as const,
+  all: () => ["event", "all"] as const,
+  groupList: (group?: number | string) => ["event", "group", group] as const,
   groupName: () => ["groupName"] as const,
-  detail: (id: number | string) => [...eventKeys.all, "detail", id] as const,
-  date: (id: number | string) => [...eventKeys.all, "date", id] as const,
-  dateList: (ids: number[] | string[]) => ["listDate", ids] as const
+  detail: (id: number | string) => ["event", "detail", id] as const,
+  user: (userId: number | string) => ["event", "user", userId] as const,
+  userList: (userIds: number[] | string[]) => ["event", {userIds}] as const,
+  dateList: (ids: number[] | string[]) => ["date", "update", ids] as const
   // dateList: (objs: PickDate[]) => ["listDate", objs] as const
 };
 
@@ -26,11 +27,12 @@ export function useEventCache() {
 
   return useMemo(
     () => ({
-      invalidateList: () => queryClient.invalidateQueries({queryKey: eventKeys.list()}),
+      invalidateList: () => queryClient.invalidateQueries({queryKey: eventKeys.all()}),
       invalidGroupList: (group: number | string) =>
         queryClient.invalidateQueries({queryKey: eventKeys.groupList(group)}),
       invalidateDetail: (id: number | string) =>
         queryClient.invalidateQueries({queryKey: eventKeys.detail(id)}),
+      invalidateUser: (userId: number | string) => queryClient.invalidateQueries({queryKey: eventKeys.user(userId)})
     }),
     [queryClient]
   );

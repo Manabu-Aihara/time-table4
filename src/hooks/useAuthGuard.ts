@@ -1,12 +1,9 @@
-import { useAuthContext } from './useContextFamily';
+import { useAuthContext } from "../hooks/useContextFamily";
 import { useAuthQuery } from '../resources/queries';
 import { AuthInfoProp } from '../lib/TimelineType';
 
 export const useAuthInfo = () => {
-
-  const authContext = useAuthContext();  
-  const tokenContext = authContext.type === 'token' ? authContext.accessToken : undefined;  
-  const { data } = useAuthQuery(tokenContext!);
+  const { data } = useAuthQuery();
 
   const strData = JSON.stringify(data);
   // パターン 1

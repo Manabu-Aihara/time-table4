@@ -67,7 +67,7 @@ export const useUpdateDateListMutation = (targetIds: string[]) => {
         data: timeBeltArray
       }),
     onMutate: (newDate) => {
-      const prevEvents = queryClient.getQueryData(eventKeys.list());
+      const prevEvents = queryClient.getQueryData(eventKeys.all());
       queryClient.setQueryData(eventKeys.dateList(targetIds),
         newDate
       );
@@ -95,7 +95,7 @@ const useUpdateDateMutation = (targetId: number | string) => {
       basicAxios.post(`/date/update/${targetId}`, timeBelt),
     onMutate: (newDate) => {
       const prevEvents = queryClient.getQueryData(eventKeys.detail(targetId));
-      queryClient.setQueryData(eventKeys.date(targetId),
+      queryClient.setQueryData(eventKeys.detail(targetId),
         newDate
       );
       return { prevEvents };

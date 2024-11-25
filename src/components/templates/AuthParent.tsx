@@ -35,11 +35,11 @@ export const AuthProvider = ({children}: {children: ReactNode}) => {
   //   accessToken: '0123456789abcdef'
   // });
   // const [auth, dispatch] = useReducer(useAuthReducer, '');
-  // console.log(`Parent: ${JSON.stringify(data)}`);
   // 状態保持ができません！
   // const search = useLocation().search;
   // const query = new URLSearchParams(search);
   const { data } = useSearchQuery('token');
+  console.log(`Parent context token: ${data}`);
   const _auth: AuthInfoProp = { accessToken: data!, type: 'token' }
 
   return (

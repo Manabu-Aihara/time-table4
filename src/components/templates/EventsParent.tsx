@@ -3,9 +3,9 @@ import moment from 'moment';
 
 // import { EventItem } from '../lib/EventItem';
 import { TimelineEventProps } from '../../lib/TimelineType';
-import { useEventsQuery, useEventsQueryForTl } from '../../resources/queries';
+import { useEventsQuery, useUserEventQuery } from '../../resources/queries';
 import { useAuthContext } from '../../hooks/useContextFamily';
-import { fetchEventsData } from '../../resources/fetch';
+import { fetchEventDataForTT } from '../../resources/fetch';
 // import { timelineEventsReducer } from '../../lib/reducer';
 
 // type EventItems = EventItem[];
@@ -52,14 +52,14 @@ export const EventsContextProvider = ({ children }: { children: ReactNode }) => 
   // useEffect(() => {
   //   const f = async () => {
   //     console.log('Passed');
-  //     const fetchmono = await fetchEventsData(token!);
+  //     const fetchmono = await fetchEventDataForTT(token!);
   //     console.log(`fetch json: ${fetchmono}`);
   //   }
   //   f();
   // }, []);
 
   // const { data } = useEventsQuery();
-  const { data } = useEventsQueryForTl();
+  const { data } = useUserEventQuery();
   // console.log(`Parent json: ${JSON.stringify(data)}`);
   const toString = Object.prototype.toString;
   // toString.call(new Date()); // [object Date]
