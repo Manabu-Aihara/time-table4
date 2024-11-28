@@ -38,7 +38,7 @@ export const EventsContextProvider = ({ children }: { children: ReactNode }) => 
   const initialData: TimelineEventProps = {
     id: 0,
     staff_id: 1000,
-    group: 1,
+    group: 7,
     title: 'Learn cool stuff',
     // moment.utc("2019-02-21 09:00").local().format();  //"2019-02-21T18:00:00+09:00"
     start_time: moment(),
@@ -63,7 +63,7 @@ export const EventsContextProvider = ({ children }: { children: ReactNode }) => 
   // console.log(`Parent json: ${JSON.stringify(data)}`);
   const toString = Object.prototype.toString;
   // toString.call(new Date()); // [object Date]
-  console.log('End type is moment?: ', moment.isMoment(data?.slice(-1)[0].end_time));
+  // console.log('End type is moment?: ', moment.isMoment(data?.slice(-1)[0].end_time));
   const state: TimelineEventPropsList = [initialData].concat(data!);
   
   return (

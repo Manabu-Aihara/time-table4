@@ -12,13 +12,10 @@ import { useEventsQuery } from '../../resources/queries';
 import { TimelineEventProps } from '../../lib/TimelineType';
 import { OnSelectSlot } from "../../sample/SelectSlot";
 import { CalendarWrapper } from "../pages/CalendarWrapperComponent";
+import { MyHorizonTimeline } from "../pages/TimelineComponent";
 
 export const RoutesComponent = () => {
-	const [event, setEvent] = useState<TimelineEventProps>();
-  // const todos = useEventsQuery();
-
-  // console.log(`View: ${JSON.stringify(event)}`);
-  // console.log((`From attendance: ${JSON.stringify(todos)}`));
+  
   return (
     <>
       <AuthProvider>
@@ -28,10 +25,11 @@ export const RoutesComponent = () => {
               <Routes>
                 <Route path="/auth" element={<AuthLeavePage />} />
                 <Route path="/calendar"	element={<CalendarWrapper />} />
-                <Route path="/timeline" element={<MyTimeline
+                <Route path="/timeline" element={<MyHorizonTimeline />} />
+                {/* <Route path="/timeline" element={<MyTimeline
                   onShowFormView={(event: TimelineEventProps) => setEvent(event)}
                   targetEvent={event!} />
-                } />
+                } /> */}
                 {/* <Route path="/slot" element={<OnSelectSlot />} /> */}
               </Routes>
             {/* </BrowserRouter> */}

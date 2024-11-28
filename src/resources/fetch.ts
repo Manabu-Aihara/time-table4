@@ -20,9 +20,9 @@ export const fetchEventsData = async (postToken: string): Promise<TimelineEventP
 	// .catch(err => console.log(err));
 }
 
-export const fetchEventDataForTT = async (postToken: string, staffId: string): Promise<TimelineEventProps[]> => {
+export const fetchEventDataForTT = async (postToken: string): Promise<TimelineEventProps[]> => {
 	const { data } = await basicAxios.request<TimelineEventProps[]>({
-		url: `/event/user/${staffId}`,
+		url: '/event/user',
 		method: 'GET',
 		headers: {
 			'Access-Control-Allow-Origin': '*',
@@ -30,6 +30,7 @@ export const fetchEventDataForTT = async (postToken: string, staffId: string): P
 			'credentials': 'include' // ここを追加。
 		}
 	})
+	console.log(`Event fetch data: ${JSON.stringify(data)}`);
 	return data;
 }
 
@@ -65,8 +66,8 @@ export const refresh = async (prev: string): Promise<AxiosResponse<string>> => {
 };
 
 export const requestGroup = async (postToken: string)
-	: Promise<AxiosResponse<string>> =>	{
-  const groupNameResp = await basicAxios.post('/group-name', postToken,
+	: Promise<AxiosResponse<string[]>> =>	{
+  const groupNameResp = await basicAxios.post('/group-names', postToken,
 		{
 			headers: {
 				'Access-Control-Allow-Origin': '*',
@@ -74,6 +75,6 @@ export const requestGroup = async (postToken: string)
 				'credentials': 'include'
 			}
 		});
-
-	return groupNameResp.data;
+	console.log(`Group fetch data: ${groupNameResp}`);
+	return groupNameResp;
 }

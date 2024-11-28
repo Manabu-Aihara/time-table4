@@ -85,5 +85,6 @@ export const exAuthToken: AuthInfoProp = {
 export const exAuthUser: AuthInfoProp = {
   type: 'auth',
   authId: 500,
-  group: 4
+  code: 4,
+  group: 'coffee'
 }

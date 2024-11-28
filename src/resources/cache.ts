@@ -7,9 +7,9 @@ export const eventKeys = {
   event: ["event"] as const,
   all: () => ["event", "all"] as const,
   groupList: (group?: number | string) => ["event", "group", group] as const,
-  groupName: () => ["groupName"] as const,
+  groupNames: () => ["groupNames"] as const,
   detail: (id: number | string) => ["event", "detail", id] as const,
-  user: (userId: number | string) => ["event", "user", userId] as const,
+  user: () => ["event", "user"] as const,
   userList: (userIds: number[] | string[]) => ["event", {userIds}] as const,
   dateList: (ids: number[] | string[]) => ["date", "update", ids] as const
   // dateList: (objs: PickDate[]) => ["listDate", objs] as const
@@ -32,7 +32,7 @@ export function useEventCache() {
         queryClient.invalidateQueries({queryKey: eventKeys.groupList(group)}),
       invalidateDetail: (id: number | string) =>
         queryClient.invalidateQueries({queryKey: eventKeys.detail(id)}),
-      invalidateUser: (userId: number | string) => queryClient.invalidateQueries({queryKey: eventKeys.user(userId)})
+      invalidateUser: () => queryClient.invalidateQueries({queryKey: eventKeys.user()})
     }),
     [queryClient]
   );

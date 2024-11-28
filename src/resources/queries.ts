@@ -30,13 +30,10 @@ export const useRefreshQuery = () => {
   });
 }
 
-export const useAuthQuery = () => {
-  const authContext = useAuthContext();
-  const tokenContext = authContext.type === 'token' ? authContext.accessToken : undefined;  
-  
+export const useAuthQuery = (authToken: string) => {
   return useQuery({
-    queryKey: authKeys.verify(tokenContext!),
-    queryFn: () => fetchAuthResponse(tokenContext!),
+    queryKey: authKeys.verify(authToken),
+    queryFn: () => fetchAuthResponse(authToken),
     // 型 'Promise<AxiosResponse<AuthInfoProp, any>>' を
     // 型 'AuthInfoProp | Promise<AuthInfoProp>' に割り当てることはできません。
     // select: useCallback((data: AuthInfoProp) => {
@@ -87,11 +84,10 @@ export const useEventsQuery = () => {
 export const useUserEventQuery = () => {
   const authContext = useAuthContext();
   const tokenContext = authContext.type === 'token' ? authContext.accessToken : undefined;
-  const { data: searchUserId } = useSearchQuery('userID');
   
   const { data, ...queryInfo } = useQuery({
-    queryKey: eventKeys.user(searchUserId!),
-    queryFn: () => fetchEventDataForTT(tokenContext!, searchUserId!)
+    queryKey: eventKeys.user(),
+    queryFn: () => fetchEventDataForTT(tokenContext!)
   })
   return {
     ...queryInfo,
@@ -133,7 +129,7 @@ export const useGroupNameQuery = () => {
   const tokenContext = authContext.type === 'token' ? authContext.accessToken : undefined;  
 
   return useQuery({
-    queryKey: eventKeys.groupName(),
+    queryKey: eventKeys.groupNames(),
     queryFn: () => requestGroup(tokenContext!)
   })
 }

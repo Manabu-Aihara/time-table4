@@ -1,4 +1,4 @@
-import { useState, FormEvent, useEffect, useRef } from 'react';
+import { useState, FormEvent, useEffect } from 'react';
 import { ChakraProvider, Box, Text, Input, Button } from '@chakra-ui/react';
 import moment from 'moment';
 
@@ -23,11 +23,6 @@ export const TitleInput = ({
   const [title, setTitle] = useState<string>('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // setTitle(prevTitle => {
-    //     prevTitle = e.target.value;
-    //     return prevTitle;
-    //   }
-    // );
     setTitle(e.target.value);
   };
 
@@ -40,9 +35,10 @@ export const TitleInput = ({
 
     if(authInfo.type === 'auth'){
       // createEvent.mutate(eventItem!);
+      console.log(`Create mutate: ${authInfo.authId}`);
       createEvent.mutate({
         id: Number(eventsState.slice(-1)[0].id) + 1,
-        group: authInfo.group,
+        group: authInfo.code,
         staff_id: authInfo.authId,
         title: title,
         start_time: moment(startDT),
@@ -56,7 +52,6 @@ export const TitleInput = ({
     setTitle('');
   }, [closeDialog]);
 
-  console.log('State title: ', title);
   return (
     <ChakraProvider>
       <Box>

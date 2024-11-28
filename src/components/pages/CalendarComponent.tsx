@@ -9,7 +9,7 @@ import { useAuthInfo } from '../../hooks/useAuthGuard';
 import { useCallingEditForm } from '../../hooks/useCallingForm';
 import localizer from '../../lib/Localization';
 import { CalendarActionProps, TimelineEventProps } from '../../lib/TimelineType';
-import { useSearchQuery } from '../../resources/queries';
+import { useGroupNameQuery, useSearchQuery } from '../../resources/queries';
 import { CustomContainerWrapper, CustomEventWrapper, CustomEventCard } from '../molecules/WrapComponent';
 import { TimesUpdateButton } from '../molecules/TimeUpdateButtonComponent';
 import { MyWeek } from '../organisms/DaysClassComponent';
@@ -57,7 +57,7 @@ export const MyCalendar = (
   const [dragStart, setDragStart] = useState<boolean>();
   const onDragStart = useCallback((args: OnDragStartArgs<TimelineEventProps>) => {
     const { event, action } = args;
-    console.log('Auth info: ', typeof authId);
+    // console.log('Auth info: ', typeof authId);
     console.log('Staff: ', event.staff_id);
     if(event.staff_id !== Number(authId)){
       console.log('ちがうとこ通ります', action);
@@ -72,9 +72,12 @@ export const MyCalendar = (
    */
   const DnDCalendar = withDragAndDrop(Calendar<TimelineEventProps>);
   const { onEventResize, onEventDrop, eventList, prevRef } = useMouseEvents();
-  console.log(`Remained prev data: ${JSON.stringify(prevRef.current)}`);
+  console.log(`Prev data: ${JSON.stringify(prevRef.current)}`);
 
-  onTimeChangeEvents?.(eventList);
+  useEffect(() => {
+    onTimeChangeEvents?.(eventList);
+  }, [onTimeChangeEvents, eventList]);
+
   state.map((evt, j) => {
     // if(prevRef){
       if(prevRef.current?.isDraggable === true && prevRef.current.id === evt.id){
@@ -123,7 +126,10 @@ export const MyCalendar = (
     countRef.current = clickRef.current;
     // console.log('今の状態 Slot: ', countRef.current, clickRef.current);
   }, []);
-  onSlotInfo?.(slotInfoState!);
+
+  useEffect(() => {
+    onSlotInfo?.(slotInfoState!);
+  }, [onSelectSlot, slotInfoState]);
 
   const [allDayEvent, setAllDayEvent] = useState<TimelineEventProps>();
   const allowAllDay = (event: TimelineEventProps) => {
@@ -142,7 +148,7 @@ export const MyCalendar = (
 
 	const divRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    console.log('Ref: ', divRef.current?.innerHTML);
+    // console.log('Ref: ', divRef.current?.innerHTML);
     divRef.current?.scrollIntoView({behavior: 'smooth'});
   }, [selectEvent]);
 
@@ -154,6 +160,9 @@ export const MyCalendar = (
     eventWrapper: CustomEventWrapper,
     // eventContainerWrapper: CustomContainerWrapper
   }), []);
+
+  const { data: groupInfo, error } = useGroupNameQuery();
+  console.log(`Group error: ${error} ${JSON.stringify(groupInfo?.data)}`);
 
   return (
     <>

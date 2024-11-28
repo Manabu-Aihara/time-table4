@@ -5,7 +5,10 @@ import { useAuthQuery } from "../../resources/queries";
 import { useAuthContext } from "../../hooks/useContextFamily";
 
 export const AuthLeavePage = () => {
-  const { data, isError, isPending } = useAuthQuery();
+  const authContext = useAuthContext();
+  const tokenContext = authContext.type === 'token' ? authContext.accessToken : undefined;  
+  
+  const { data, isError, isPending } = useAuthQuery(tokenContext!);
   const navigate = useNavigate();
 
   console.log(`とりあえず結果のID: ${JSON.stringify(data)}`);

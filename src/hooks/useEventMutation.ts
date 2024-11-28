@@ -16,9 +16,12 @@ export const useCreateMutation = () => {
 
   return useMutation({
     mutationFn: (timelineEvent: TimelineEventProps) =>
-      basicAxios.post(`/event/add`, timelineEvent),
+      basicAxios.post('/event/add', timelineEvent),
+    // onError: (error) => {
+    //   console.log(`error!: ${error}`);
+    // },
     onSuccess: () => {
-      return eventCache.invalidateList();
+      eventCache.invalidateUser();
     }
   });
 }
@@ -35,7 +38,8 @@ export const useDeleteMutation = (targetId: number | string) => {
     // },
     onSettled: () => {
       console.log('サクセス通ってます');
-      eventCache.invalidateList();
+      // targetIdはユーザーじゃない❗
+      eventCache.invalidateUser();
     }
   });
 }
@@ -52,7 +56,8 @@ export const useUpdateEventMutation = (targetId: number | string) => {
     },
     onError: (error) => console.log(`error!: ${error}`),
     onSuccess: () => {
-      eventCache.invalidateList();
+      // targetIdはユーザーじゃない❗
+      eventCache.invalidateUser();
     },
   });
 }
@@ -79,9 +84,9 @@ export const useUpdateDateListMutation = (targetIds: string[]) => {
     //   console.log(`variables: ${JSON.stringify(variables)}, context: prevEventsと同じよ`)
     // },
     onSettled: (data, error) => {
-      // console.log(`Mutation data: ${data}`);
+      console.log(`Mutation data: ${JSON.stringify(data)}`);
       console.log(`Mutation error: ${error}`);
-      eventCache.invalidateList();
+      eventCache.invalidateUser();
     }
   });
 }
