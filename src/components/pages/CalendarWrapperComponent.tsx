@@ -22,7 +22,7 @@ export const CalendarWrapper = () => {
   return (
     <chakra.div className={flexXmandatory}>
       <button>
-        <Link to="/timeline">サンプルタイムライン</Link>
+        <Link to="/timeline">タイムライン</Link>
       </button>
       {/* {event && <MyTimeline
         onShowFormView={targetEvent => setEvent(targetEvent)}

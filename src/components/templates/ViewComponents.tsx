@@ -3,13 +3,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { AuthProvider } from './AuthParent';
 import { EventsContextProvider } from './EventsParent';
-import { MyCalendar } from '../pages/CalendarComponent';
 import { MyTimeline } from '../pages/TLComponent';
 import { AuthLeavePage } from '../pages/AuthLeaveComponent';
 import { AuthAxios } from "./AxiosClientProvider";
-import { useEventsQuery } from '../../resources/queries';
-// import { EventItem } from '../../lib/EventItem';
-import { TimelineEventProps } from '../../lib/TimelineType';
 import { OnSelectSlot } from "../../sample/SelectSlot";
 import { CalendarWrapper } from "../pages/CalendarWrapperComponent";
 import { MyHorizonTimeline } from "../pages/TimelineComponent";

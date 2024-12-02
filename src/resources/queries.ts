@@ -84,10 +84,11 @@ export const useEventsQuery = () => {
 export const useUserEventQuery = () => {
   const authContext = useAuthContext();
   const tokenContext = authContext.type === 'token' ? authContext.accessToken : undefined;
+  const { data: searchQueryToken } = useSearchQuery('token');
   
   const { data, ...queryInfo } = useQuery({
     queryKey: eventKeys.user(),
-    queryFn: () => fetchEventDataForTT(tokenContext!)
+    queryFn: () => fetchEventDataForTT(searchQueryToken!)
   })
   return {
     ...queryInfo,

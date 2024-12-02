@@ -1,10 +1,10 @@
 import { dateFnsLocalizer, momentLocalizer, dayjsLocalizer } from 'react-big-calendar';
-import format from 'date-fns/format';
-import parse from 'date-fns/parse';
-import startOfWeek from 'date-fns/startOfWeek';
-import getDay from 'date-fns/getDay';
+import { format } from 'date-fns/format';
+import { parse } from 'date-fns/parse';
+import { startOfWeek } from 'date-fns/startOfWeek';
+import { getDay } from 'date-fns/getDay';
 // import enUS from 'date-fns/locale/en-US';
-import ja from 'date-fns/locale/ja';
+import { ja } from 'date-fns/locale/ja';
 import { addHours } from 'date-fns/addHours';
 import { startOfHour } from 'date-fns/startOfHour';
 

@@ -21,7 +21,7 @@ export const useCreateMutation = () => {
     //   console.log(`error!: ${error}`);
     // },
     onSuccess: () => {
-      eventCache.invalidateUser();
+      eventCache.invalidateList();
     }
   });
 }
@@ -39,7 +39,7 @@ export const useDeleteMutation = (targetId: number | string) => {
     onSettled: () => {
       console.log('サクセス通ってます');
       // targetIdはユーザーじゃない❗
-      eventCache.invalidateUser();
+      eventCache.invalidateList();
     }
   });
 }
@@ -86,7 +86,7 @@ export const useUpdateDateListMutation = (targetIds: string[]) => {
     onSettled: (data, error) => {
       console.log(`Mutation data: ${JSON.stringify(data)}`);
       console.log(`Mutation error: ${error}`);
-      eventCache.invalidateUser();
+      eventCache.invalidateList();
     }
   });
 }

@@ -3,7 +3,7 @@ import moment from 'moment';
 
 // import { EventItem } from '../lib/EventItem';
 import { TimelineEventProps } from '../../lib/TimelineType';
-import { useEventsQuery, useUserEventQuery } from '../../resources/queries';
+import { useEventsQuery, useEventsQueryForTL, useUserEventQuery } from '../../resources/queries';
 import { useAuthContext } from '../../hooks/useContextFamily';
 import { fetchEventDataForTT } from '../../resources/fetch';
 // import { timelineEventsReducer } from '../../lib/reducer';
@@ -58,18 +58,19 @@ export const EventsContextProvider = ({ children }: { children: ReactNode }) => 
   //   f();
   // }, []);
 
-  // const { data } = useEventsQuery();
-  const { data } = useUserEventQuery();
-  // console.log(`Parent json: ${JSON.stringify(data)}`);
+  const { data, isPending } = useEventsQueryForTL();
+  // const { data } = useUserEventQuery();
+  console.log(`Parent json: ${JSON.stringify(data)}`);
   const toString = Object.prototype.toString;
-  // toString.call(new Date()); // [object Date]
+  toString.call(moment); // [object Date]
   // console.log('End type is moment?: ', moment.isMoment(data?.slice(-1)[0].end_time));
   const state: TimelineEventPropsList = [initialData].concat(data!);
   
+  // if(isPending) return <div>Loading...</div>; // <- 取得中は children をマウントさせない
   return (
     <EventsStateContext.Provider value={state}>
       {/* <EventsDispatchContext.Provider value={dispatch}> */}
-				{children}
+        {children}
       {/* </EventsDispatchContext.Provider> */}
     </EventsStateContext.Provider>
   );

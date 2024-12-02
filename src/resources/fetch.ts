@@ -14,7 +14,7 @@ export const fetchEventsData = async (postToken: string): Promise<TimelineEventP
 			'credentials': 'include' // ここを追加。
 		}
 	})
-	console.log(`Event fetch data: ${JSON.stringify(data)}`);
+	console.log(`Event fetch all: ${JSON.stringify(data)}`);
 	return data;
 	// .then(res => console.log(res))
 	// .catch(err => console.log(err));
@@ -30,7 +30,7 @@ export const fetchEventDataForTT = async (postToken: string): Promise<TimelineEv
 			'credentials': 'include' // ここを追加。
 		}
 	})
-	console.log(`Event fetch data: ${JSON.stringify(data)}`);
+	console.log(`Event fetch user: ${JSON.stringify(data)}`);
 	return data;
 }
 

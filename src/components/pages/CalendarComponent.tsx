@@ -9,7 +9,7 @@ import { useAuthInfo } from '../../hooks/useAuthGuard';
 import { useCallingEditForm } from '../../hooks/useCallingForm';
 import localizer from '../../lib/Localization';
 import { CalendarActionProps, TimelineEventProps } from '../../lib/TimelineType';
-import { useGroupNameQuery, useSearchQuery } from '../../resources/queries';
+import { useSearchQuery } from '../../resources/queries';
 import { CustomContainerWrapper, CustomEventWrapper, CustomEventCard } from '../molecules/WrapComponent';
 import { TimesUpdateButton } from '../molecules/TimeUpdateButtonComponent';
 import { MyWeek } from '../organisms/DaysClassComponent';
@@ -28,7 +28,17 @@ export const MyCalendar = (
     onTimeChangeEvents,
     onSlotInfo
   }: CalendarActionProps) => {
-  const state = useEventsState();
+
+  const { authId } = useAuthInfo();
+  // VSCode あてにならん
+  console.log(`Auth info: ${typeof authId}`);
+
+  const stateAll = useEventsState();
+  // console.log('End data is existing?: ', stateAll.slice(-1)[0].end_time);
+
+  const state = stateAll.length > 2 ? stateAll.filter((stateEvent) => {
+    return stateEvent.staff_id == authId;
+  }) : undefined;
 
   /**
    * EventPropGetter
@@ -52,8 +62,6 @@ export const MyCalendar = (
   /**
    * onDragStart and prevent
    */
-  const { authId } = useAuthInfo();
-
   const [dragStart, setDragStart] = useState<boolean>();
   const onDragStart = useCallback((args: OnDragStartArgs<TimelineEventProps>) => {
     const { event, action } = args;
@@ -74,11 +82,14 @@ export const MyCalendar = (
   const { onEventResize, onEventDrop, eventList, prevRef } = useMouseEvents();
   console.log(`Prev data: ${JSON.stringify(prevRef.current)}`);
 
+  // Warning: Cannot update a component (`CalendarWrapper`) while rendering a different component (`MyCalendar`). 
+  // To locate the bad setState() call inside `MyCalendar`,
+  // https://stackoverflow.com/questions/75023532/warning-cannot-update-a-component-home-while-rendering-a-different-componen
   useEffect(() => {
     onTimeChangeEvents?.(eventList);
   }, [onTimeChangeEvents, eventList]);
 
-  state.map((evt, j) => {
+  state?.map((evt, j) => {
     // if(prevRef){
       if(prevRef.current?.isDraggable === true && prevRef.current.id === evt.id){
         console.log(`Exclude event id: ${prevRef.current?.id}, ${j}`);
@@ -88,7 +99,7 @@ export const MyCalendar = (
     // }
   });
   // console.log(`Old state: ${JSON.stringify(state)}`);
-  const newState = eventList ? state.concat(eventList) : state;
+  const newState = eventList ? state?.concat(eventList) : state;
   console.log(`Expect update events: ${JSON.stringify(eventList)}`);
 
   // Viewの切り替え調節、このまんま使える
@@ -160,9 +171,6 @@ export const MyCalendar = (
     eventWrapper: CustomEventWrapper,
     // eventContainerWrapper: CustomContainerWrapper
   }), []);
-
-  const { data: groupInfo, error } = useGroupNameQuery();
-  console.log(`Group error: ${error} ${JSON.stringify(groupInfo?.data)}`);
 
   return (
     <>

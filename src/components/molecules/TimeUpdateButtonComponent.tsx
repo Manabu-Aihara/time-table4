@@ -18,8 +18,8 @@ export const TimesUpdateButton = forwardRef(
   const resetAction = () => {
     setTimeout(() => {
       // クラウドではこちらでOK
-      timeChangeEvents.splice(0);
-      // handleReset();
+      // timeChangeEvents.splice(0);
+      handleReset();
       console.log('Inner setTimeout');
     }, 250);
   }
