@@ -10,10 +10,8 @@ import { useCallingEditForm } from '../../hooks/useCallingForm';
 import localizer from '../../lib/Localization';
 import { CalendarActionProps, TimelineEventProps } from '../../lib/TimelineType';
 import { useSearchQuery } from '../../resources/queries';
-import { CustomContainerWrapper, CustomEventWrapper, CustomEventCard } from '../molecules/WrapComponent';
+import { CustomEventWrapper, CustomEventCard } from '../molecules/WrapComponent';
 import { TimesUpdateButton } from '../molecules/TimeUpdateButtonComponent';
-import { MyWeek } from '../organisms/DaysClassComponent';
-import { views } from '../organisms/DaysComponent';
 import { DialogOnSlot } from '../organisms/DialogOnSlotComponent';
 import { AddChildForm } from '../organisms/InputItem';
 
@@ -169,7 +167,6 @@ export const MyCalendar = (
   const customComponents = useMemo(() => ({
     event: CustomEventCard,
     eventWrapper: CustomEventWrapper,
-    // eventContainerWrapper: CustomContainerWrapper
   }), []);
 
   return (
@@ -192,8 +189,7 @@ export const MyCalendar = (
             onNavigate={onNavigate}
             // eventPropGetter={() => {return {'className': 'cn'}}}
             eventPropGetter={eventPropGetter}
-            // onDragStart={(...args) => console.log(args)}
-            onDragStart={onDragStart}
+            // onDragStart={onDragStart}
             onEventDrop={dragStart === false ? undefined : onEventDrop}
             onEventResize={dragStart === false ? undefined : onEventResize}
             resizable
@@ -206,15 +202,15 @@ export const MyCalendar = (
               console.log('Range: ', range);
             }}
             // components={customComponents}
-            views={views.view}
           />
         </chakra.div>
       </chakra.div>
       {/* <DialogOnSlot slotInfo={slotInfoState} /> */}
       {modal.showModal &&
         <EditForm>
-          <AddChildForm selectedEvent={selectEvent!} ref={divRef}
-            closeClick={modal.closeInputForm} />
+          {selectEvent &&
+          <AddChildForm selectedEvent={selectEvent} ref={divRef}
+            closeClick={modal.closeInputForm} />}
         </EditForm>}
     </>
   );

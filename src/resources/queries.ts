@@ -1,14 +1,13 @@
-import { useCallback, useMemo } from "react";
+import { useMemo } from "react";
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import { AxiosError, AxiosResponse } from "axios";
 import { useLocation } from "react-router-dom";
 import moment from 'moment';
 
-import { TimelineEventProps, AuthInfoProp } from "../lib/TimelineType";
-import { fetchEventDataForTT, fetchEventsData, fetchAuthResponse, refresh, requestGroup } from "./fetch";
-import { eventKeys, authKeys } from "./cache";
+import { TimelineEventProps, AuthInfoProp, AuthGuardContext } from "../lib/TimelineType";
+import { fetchEventsDataForTT, fetchEventsData, fetchAuthResponse, refresh, requestGroup, requestGroupMember } from "./fetch";
+import { eventKeys, authKeys, useAuthCache } from "./cache";
 import { useAuthContext } from "../hooks/useContextFamily";
-import { useAuthInfo } from "../hooks/useAuthGuard";
 
 export const useSearchQuery = (searchKey: string) => {
   const search = useLocation().search;
@@ -24,7 +23,7 @@ export const useRefreshQuery = () => {
   const authContext = useAuthContext();
   const tokenContext = authContext.type === 'token' ? authContext.accessToken : undefined;  
   
-    return useQuery({
+  return useQuery({
     queryKey: authKeys.verify(tokenContext!),
     queryFn: () => refresh(tokenContext!)
   });
@@ -34,16 +33,6 @@ export const useAuthQuery = (authToken: string) => {
   return useQuery({
     queryKey: authKeys.verify(authToken),
     queryFn: () => fetchAuthResponse(authToken),
-    // 型 'Promise<AxiosResponse<AuthInfoProp, any>>' を
-    // 型 'AuthInfoProp | Promise<AuthInfoProp>' に割り当てることはできません。
-    // select: useCallback((data: AuthInfoProp) => {
-    //   if(data.type === 'auth')
-    //     return {
-    //       ...data,
-    //       authId: data.authId,
-    //       group: data.group,
-    //     }
-    // }, [])
   });
 }
     // 以下は恐ろしいことに…
@@ -57,8 +46,6 @@ export const useAuthQuery = (authToken: string) => {
 // Data not recalculated when select function changes #1580
 // https://github.com/TanStack/query/issues/1580
 export const useEventsQuery = () => {
-  // const search = useLocation().search;
-  // const query = new URLSearchParams(search);
   // JavaScript の分割代入で変数名を変更する
   // https://qiita.com/masachoco/items/601b6771021bde2311f8
   const { data: searchQueryToken } = useSearchQuery('token');
@@ -81,14 +68,12 @@ export const useEventsQuery = () => {
   }
 }
 
-export const useUserEventQuery = () => {
-  const authContext = useAuthContext();
-  const tokenContext = authContext.type === 'token' ? authContext.accessToken : undefined;
+export const useUserEventsQuery = () => {
   const { data: searchQueryToken } = useSearchQuery('token');
   
   const { data, ...queryInfo } = useQuery({
     queryKey: eventKeys.user(),
-    queryFn: () => fetchEventDataForTT(searchQueryToken!)
+    queryFn: () => fetchEventsDataForTT(searchQueryToken!)
   })
   return {
     ...queryInfo,
@@ -109,7 +94,7 @@ export const useEventsQueryForTL = () => {
   const { data, ...queryInfo } = useQuery({
     queryKey: eventKeys.all(),
     queryFn: () => fetchEventsData(searchQueryToken!)
-  })
+  });
   // return { data, queryInfo }
   return {
     ...queryInfo,
@@ -123,6 +108,16 @@ export const useEventsQueryForTL = () => {
       // item
     })), [data])
   }
+}
+
+export const useGroupUsersQuery = () => {
+  const authContext = useAuthContext();
+  const tokenContext = authContext.type === 'token' ? authContext.accessToken : undefined;  
+
+  return useQuery({
+    queryKey: eventKeys.userList(),
+    queryFn: () => requestGroupMember(tokenContext!),
+  });
 }
 
 export const useGroupNameQuery = () => {

@@ -1,30 +1,12 @@
 import { CSSProperties, ComponentPropsWithRef, PropsWithChildren, useRef } from 'react';
 
-import { EventWrapperProps, EventProps } from 'react-big-calendar';
+import { Components, EventWrapperProps, EventProps } from 'react-big-calendar';
 
 import { TimelineEventProps } from "../../lib/TimelineType";
-import { useSearchQuery } from '../../resources/queries';
+
 
 // React component type in TypeScript
 // https://stackoverflow.com/questions/56947690/react-component-type-in-typescript
-export const CustomContainerWrapper: React.FC<Record<string, never>> =
-  (props) => {
-  const containerStyle: CSSProperties = {
-    width: '100%',
-    height: '100%',
-    background: 'pink',
-    // position: 'relative'
-  }
-  console.log('Container FC: ', props);
-  return (
-      <div
-        id="custom-container-wrapper"
-        style={containerStyle}
-      >
-        {props.children}
-      </div>
-  );
-}
 
 type ComponentWithChildrenProps = PropsWithChildren<EventWrapperProps<TimelineEventProps>>
 export const CustomEventWrapper: React.FC<ComponentWithChildrenProps> = (props) => {
@@ -32,7 +14,7 @@ export const CustomEventWrapper: React.FC<ComponentWithChildrenProps> = (props) 
 
   const getterMaybeProp = props.getters.eventProp;
   const getterProp = getterMaybeProp && getterMaybeProp(event, event.start!, event.end!, false);
-  // getterProp && console.log(`Getter prop: ${JSON.stringify(getterProp['style'])}`);
+  getterProp && console.log(`Getter prop: ${JSON.stringify(getterProp)}`);
 	// const { data } = useSearchQuery('userID');
 
   const ref = useRef<HTMLDivElement>(null);
@@ -44,6 +26,8 @@ export const CustomEventWrapper: React.FC<ComponentWithChildrenProps> = (props) 
   const wrapperStyle: CSSProperties = {
     width: 'fit-content',
     height: '100%',
+    outline: '2px solid orange',
+    outlineOffset: '2px',
   }
   const nextStyle: CSSProperties = {
     width: '100%',
@@ -66,10 +50,10 @@ export const CustomEventWrapper: React.FC<ComponentWithChildrenProps> = (props) 
   }
 
   return (
-      <div ref={ref}>
-        <button style={nextStyle} onClick={(e) => handleCapture(e)}></button>
+      <button style={nextStyle} onClick={(e) => handleCapture(e)}>
+        {/* <button onClick={(e) => handleCapture(e)}></button> */}
         {props.children}
-      </div>
+      </button>
   );
 }
 

@@ -12,7 +12,7 @@ export const eventData: EventItem = {
 export const exItems: TimelineEventProps[] = [
   {
     id: 1,
-    group: 4,
+    group: 2,
     staff_id: 500,
     title: 'item 1',
     start_time: moment(),
@@ -22,7 +22,7 @@ export const exItems: TimelineEventProps[] = [
   },
   {
     id: 2,
-    group: 5,
+    group: 2,
     staff_id: 501,
     title: 'item 2',
     start_time: moment().add(-0.5, 'hour'),
@@ -32,7 +32,7 @@ export const exItems: TimelineEventProps[] = [
   },
   {
     id: 3,
-    group: 4,
+    group: 2,
     staff_id: 500,
     title: 'item 3',
     start_time: moment().add(2, 'hour'),

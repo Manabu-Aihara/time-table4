@@ -59,6 +59,11 @@ export type TimelineEventProps = Merge<NewTimelineItem, {
   isDraggable?: boolean;
 }>;
 
+export type GroupUserProps = {
+	staff_id: number;
+	family_kana: string;
+	last_kana: string;
+}
 // 使ってません
 export type PickDate = Pick<TimelineEventProps, 'start' | 'end' | 'id'>;
 
@@ -67,7 +72,7 @@ export type AuthInfoProp =
 	{ type: 'auth'; authId: number; code: number; group: string }
 	| { type: 'token'; accessToken: string };
 
-// 以下、とりあえず使ってみる
+// inferって何？
 type Option<T> =
 { type: T; authId: number; group: number }
 | { type: T; accessToken: string };

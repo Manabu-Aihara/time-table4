@@ -8,11 +8,11 @@ export const AuthLeavePage = () => {
   const authContext = useAuthContext();
   const tokenContext = authContext.type === 'token' ? authContext.accessToken : undefined;  
   
-  const { data, isError, isPending } = useAuthQuery(tokenContext!);
+  const { data, isPending, error } = useAuthQuery(tokenContext!);
   const navigate = useNavigate();
 
   console.log(`とりあえず結果のID: ${JSON.stringify(data)}`);
-  console.log(`とりあえず結果のerr: ${isError}`);
+  console.log(`とりあえず結果のerr: ${error}`);
 
   const strData = JSON.stringify(data);
 

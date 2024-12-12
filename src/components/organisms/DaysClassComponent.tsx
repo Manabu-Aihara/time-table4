@@ -1,6 +1,6 @@
 import { useState, ComponentProps } from 'react';
 // import * as TimeGrid from 'react-big-calendar/lib/TimeGrid';
-// import { TimeGrid } from 'react-big-calendar';
+import { TimeGrid } from 'react-big-calendar';
 import { NavigateAction } from 'react-big-calendar';
 import { DateLocalizer, Navigate, TitleOptions } from 'react-big-calendar';
 import moment from 'moment';

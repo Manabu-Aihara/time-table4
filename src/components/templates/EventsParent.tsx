@@ -3,9 +3,9 @@ import moment from 'moment';
 
 // import { EventItem } from '../lib/EventItem';
 import { TimelineEventProps } from '../../lib/TimelineType';
-import { useEventsQuery, useEventsQueryForTL, useUserEventQuery } from '../../resources/queries';
+import { useEventsQueryForTL, useUserEventsQuery } from '../../resources/queries';
 import { useAuthContext } from '../../hooks/useContextFamily';
-import { fetchEventDataForTT } from '../../resources/fetch';
+import { fetchEventsDataForTT } from '../../resources/fetch';
 // import { timelineEventsReducer } from '../../lib/reducer';
 
 // type EventItems = EventItem[];
@@ -47,12 +47,12 @@ export const EventsContextProvider = ({ children }: { children: ReactNode }) => 
     end: new Date(new Date().setHours(new Date().getHours() + 1))
   }
 
-  const authContext = useAuthContext();
-  const token = authContext.type === 'token' ? authContext.accessToken : undefined;
+  // const authContext = useAuthContext();
+  // const token = authContext.type === 'token' ? authContext.accessToken : undefined;
   // useEffect(() => {
   //   const f = async () => {
   //     console.log('Passed');
-  //     const fetchmono = await fetchEventDataForTT(token!);
+  //     const fetchmono = await fetchEventsDataForTT(token!);
   //     console.log(`fetch json: ${fetchmono}`);
   //   }
   //   f();
@@ -60,9 +60,11 @@ export const EventsContextProvider = ({ children }: { children: ReactNode }) => 
 
   const { data, isPending } = useEventsQueryForTL();
   // const { data } = useUserEventQuery();
-  console.log(`Parent json: ${JSON.stringify(data)}`);
-  const toString = Object.prototype.toString;
-  toString.call(moment); // [object Date]
+  // console.log(`Parent json: ${JSON.stringify(data)}`);
+  // const toString = Object.prototype.toString;
+  // toString.call(moment); // [object Date]
+  // if(isPending)
+  //   return <p>Waiting...</p> // <- 出番はあるのか?
   // console.log('End type is moment?: ', moment.isMoment(data?.slice(-1)[0].end_time));
   const state: TimelineEventPropsList = [initialData].concat(data!);
   

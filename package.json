@@ -31,6 +31,7 @@
     "react": "^18.2.0",
     "react-big-calendar": "^1.13.0",
     "react-calendar-timeline": "^0.28.0",
+    "react-calendar-timeline-v3": "1.0.0-alpha.1",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.23.1"
   },
