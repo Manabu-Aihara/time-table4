@@ -8,7 +8,7 @@ export const useAuthInfo = () => {
   
   const { data } = useAuthQuery(tokenContext!);
 
-  const strData = JSON.stringify(data);
+  const strData = JSON.stringify(data?.data);
   // パターン 1
   const objValue = JSON.parse(strData);
   // console.log(`Json type: ${typeof objValue.staff_id}, ${typeof objValue.group_id}`);

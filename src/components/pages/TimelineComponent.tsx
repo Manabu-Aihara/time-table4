@@ -7,25 +7,33 @@ import { useGroupUsersQuery, useGroupNameQuery, useAuthQuery, useRefreshQuery } 
 import { useAuthContext, useEventsState } from "../../hooks/useContextFamily";
 
 import 'react-calendar-timeline/lib/Timeline.css';
+// Missing "./dist/style.css" specifier in "react-calendar-timeline-v3" package
+// https://stackoverflow.com/questions/76406764/shareable-vite-vue-component-why-am-i-getting-error-about-missing-css-export
+import 'react-calendar-timeline-v3/style.css';
 
 export const MyHorizonTimeline = () => {
+  // グループメンバーカラム
   const { data: groupUsers } = useGroupUsersQuery();
   console.log(`Member in timeline: ${JSON.stringify(groupUsers)}`);
   const groupMember = groupUsers?.data.map((v, k) => {
-    return {id: k, title: v.family_kana}
+    return {id: v.staff_id, title: v.family_kana}
+    // ここのidが、TimelineEventProps.groupに対応する🙁
   });
 
   const authState = useAuthContext();
   const tokenContext = authState.type === 'token' ? authState.accessToken : undefined;
   // const { data: refreshToken } = useRefreshQuery();
+  // ログインユーザー
   const { data: yourInfo } = useAuthQuery(tokenContext!);
   const strYourInfo = JSON.stringify(yourInfo?.data);
   console.log(`Auth in timeline: ${strYourInfo}`);
 
+  // ログインユーザーと同グループ全イベント
   const stateAll = useEventsState();
-  const state = stateAll.length > 2 ? stateAll.filter((stateEvent) => {
-    const numGroupId: number = JSON.parse(strYourInfo).group_id
-    return stateEvent.group === numGroupId
+  const state = stateAll.length > 2 ? stateAll.map((stateEvent) => {
+    const convEventGroup: number = stateEvent.staff_id
+    stateEvent.group = convEventGroup
+    return stateEvent
   }) : undefined;
   console.log(`Events in timeline: ${JSON.stringify(state)}`);
 
@@ -46,7 +54,7 @@ export const MyHorizonTimeline = () => {
         <Link to='/calendar'>カレンダー</Link>
       </button>
       {groupMember && state &&
-        <ReactCalendarTimeline
+        <Timeline
           groups={groupMember}
           // items={exItems}
           items={state.map((item) => {

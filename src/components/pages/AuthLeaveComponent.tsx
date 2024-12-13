@@ -11,10 +11,10 @@ export const AuthLeavePage = () => {
   const { data, isPending, error } = useAuthQuery(tokenContext!);
   const navigate = useNavigate();
 
-  console.log(`とりあえず結果のID: ${JSON.stringify(data)}`);
+  console.log(`とりあえず結果のID: ${JSON.stringify(data?.data)}`);
   console.log(`とりあえず結果のerr: ${error}`);
 
-  const strData = JSON.stringify(data);
+  const strData = JSON.stringify(data?.data);
 
   useEffect(() => {
     const f = async () => {

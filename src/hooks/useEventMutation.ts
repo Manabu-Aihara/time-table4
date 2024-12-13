@@ -57,7 +57,7 @@ export const useUpdateEventMutation = (targetId: number | string) => {
     onError: (error) => console.log(`error!: ${error}`),
     onSuccess: () => {
       // targetIdはユーザーじゃない❗
-      eventCache.invalidateUser();
+      eventCache.invalidateList();
     },
   });
 }

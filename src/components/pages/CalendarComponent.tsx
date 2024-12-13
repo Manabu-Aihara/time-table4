@@ -11,8 +11,6 @@ import localizer from '../../lib/Localization';
 import { CalendarActionProps, TimelineEventProps } from '../../lib/TimelineType';
 import { useSearchQuery } from '../../resources/queries';
 import { CustomEventWrapper, CustomEventCard } from '../molecules/WrapComponent';
-import { TimesUpdateButton } from '../molecules/TimeUpdateButtonComponent';
-import { DialogOnSlot } from '../organisms/DialogOnSlotComponent';
 import { AddChildForm } from '../organisms/InputItem';
 
 import 'react-big-calendar/lib/css/react-big-calendar.css';
