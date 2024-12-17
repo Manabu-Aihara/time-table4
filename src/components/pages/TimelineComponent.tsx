@@ -31,6 +31,7 @@ export const MyHorizonTimeline = () => {
   // ログインユーザーと同グループ全イベント
   const stateAll = useEventsState();
   const state = stateAll.length > 2 ? stateAll.map((stateEvent) => {
+    // 力技で対応させる^^;
     const convEventGroup: number = stateEvent.staff_id
     stateEvent.group = convEventGroup
     return stateEvent

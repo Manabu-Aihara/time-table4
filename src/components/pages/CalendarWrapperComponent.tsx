@@ -7,7 +7,6 @@ import { TimelineEventProps } from '../../lib/TimelineType';
 import { TimesUpdateButton } from '../molecules/TimeUpdateButtonComponent';
 import { MyCalendar } from './CalendarComponent';
 import { DialogOnSlot } from '../organisms/DialogOnSlotComponent';
-import { MyTimeline } from './TLComponent';
 
 import { flexXmandatory } from './CalendarComponent.css';
 // import { eventData } from '../../lib/SampleState';
@@ -24,9 +23,6 @@ export const CalendarWrapper = () => {
       <button>
         <Link to="/timeline">タイムライン</Link>
       </button>
-      {/* {event && <MyTimeline
-        onShowFormView={targetEvent => setEvent(targetEvent)}
-        targetEvent={event} />} */}
       <MyCalendar
         onTimeChangeEvents={childData => setMovedEvents(childData)}
         onSlotInfo={childSlotInfo => setSlotInfo(childSlotInfo)}

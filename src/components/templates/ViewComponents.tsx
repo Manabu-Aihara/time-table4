@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { AuthProvider } from './AuthParent';
 import { EventsContextProvider } from './EventsParent';
-import { MyTimeline } from '../pages/TLComponent';
 import { AuthLeavePage } from '../pages/AuthLeaveComponent';
 import { AuthAxios } from "./AxiosClientProvider";
 import { OnSelectSlot } from "../../sample/SelectSlot";
@@ -22,10 +21,6 @@ export const RoutesComponent = () => {
                 <Route path="/auth" element={<AuthLeavePage />} />
                 <Route path="/calendar"	element={<CalendarWrapper />} />
                 <Route path="/timeline" element={<MyHorizonTimeline />} />
-                {/* <Route path="/timeline" element={<MyTimeline
-                  onShowFormView={(event: TimelineEventProps) => setEvent(event)}
-                  targetEvent={event!} />
-                } /> */}
                 {/* <Route path="/slot" element={<OnSelectSlot />} /> */}
               </Routes>
             {/* </BrowserRouter> */}
