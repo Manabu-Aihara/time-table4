@@ -21,9 +21,9 @@ export default defineConfig({
   // 依存関係の事前バンドル
   // https://ja.vitejs.dev/guide/dep-pre-bundling.html
   // optimizeDeps: { exclude: ['interactjs'] },
-  optimizeDeps: {
-    include: ['esm-dep > cjs-dep'],
-  },
+  // optimizeDeps: {
+  //   include: ['esm-dep > cjs-dep'],
+  // },
   resolve: {
     // alias: {
     //   "interactjs": path.resolve(__dirname, "node_modules/interactjs"),

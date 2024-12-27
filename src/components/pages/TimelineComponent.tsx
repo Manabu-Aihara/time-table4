@@ -51,9 +51,9 @@ export const MyHorizonTimeline = () => {
 
   return (
     <>
-      <button>
+      {/* <button>
         <Link to='/calendar'>カレンダー</Link>
-      </button>
+      </button> */}
       {groupMember && state &&
         <Timeline
           groups={groupMember}
