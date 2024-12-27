@@ -1,8 +1,0 @@
-# wrangler.toml
-
-name = "time-table4"
-pages_build_output_dir = "./dist"
-
-[vars]
-NODE_VERSION = "18.17.1"
-YARN_VERSION = "1.22.19"
