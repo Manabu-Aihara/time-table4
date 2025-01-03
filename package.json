@@ -1,7 +1,7 @@
 {
   "name": "vite-timetable4",
   "private": true,
-  "version": "4.0.0",
+  "version": "3.6.3",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -75,12 +75,5 @@
     "vitest": "^1.6.0",
     "yarn": "^1.22.22"
   },
-  "resolutions": {
-    "jackspeak": "2.1.1"
-  },
-  "engines": {
-    "npm": "use yarn instead",
-    "yarn": "4.3.1"
-  },
-  "packageManager": "yarn@4.3.1"
+  "packageManager": "yarn@1.22.22"
 }
