@@ -24,6 +24,7 @@
     "@vanilla-extract/sprinkles": "^1.6.2",
     "@vanilla-extract/vite-plugin": "^4.0.11",
     "axios": "^1.7.2",
+    "classnames": "^2.5.1",
     "date-fns": "^3.6.0",
     "dayjs": "^1.11.13",
     "dot-env": "^0.0.1",
