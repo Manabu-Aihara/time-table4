@@ -34,6 +34,7 @@ src.default/
 src/sample/
 
 *storybook.log
+storybook-static/
 
 # 依存パッケージを .yarn ディレクトリー配下にキャッシュ
 .pnp.*
@@ -43,3 +44,4 @@ src/sample/
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+.yarnrc.yml
