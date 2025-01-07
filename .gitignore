@@ -24,7 +24,6 @@ dist-ssr
 *.sw?
 
 # 私の都合
-env/.env
 yarn.lock
 package-lock.json
 *.bak
@@ -44,4 +43,3 @@ storybook-static/
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
-.yarnrc.yml
