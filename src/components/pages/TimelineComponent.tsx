@@ -36,7 +36,7 @@ export const MyHorizonTimeline = () => {
     stateEvent.group = convEventGroup
     return stateEvent
   }) : undefined;
-  // console.log(`Events in timeline: ${JSON.stringify(state)}`);
+  console.log(`Events in timeline: ${JSON.stringify(state)}`);
 
   const visibleTimeStart = moment().add(-12, 'hours');
   const visibleTimeEnd = moment().add(12, 'hours');
@@ -71,7 +71,7 @@ export const MyHorizonTimeline = () => {
           maxZoom={365.24 * 86400 * 1000}
           canMove={true}
           canResize={'both'}
-          // onBoundsChange={onBoundsChange}
+          onBoundsChange={onBoundsChange}
         />
       }
     </>

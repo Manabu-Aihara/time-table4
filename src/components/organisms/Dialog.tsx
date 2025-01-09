@@ -1,5 +1,7 @@
 import { useRef, useEffect, useCallback } from "react";
+import cx from 'classnames';
 
+import { titleDialog } from "./Dialog.css";
 import classes from "./dialog.module.css";
 
 type DialogProps = {
@@ -49,7 +51,7 @@ export const Dialog: React.FC<DialogProps> = ({
       ref={dialogRef}
       onClick={handleClickDialog}
     >
-      <div className={classes["content"]} >
+      <div className={cx(classes["content"], titleDialog)} >
         {children}
       </div>
     </dialog>
