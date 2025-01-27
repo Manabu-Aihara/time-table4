@@ -9,8 +9,13 @@ export const tabMenu = style({
 });
 
 export const tabButton = style({
-  color: "springgreen",
+  color: "blueviolet",
   fontSize: "larger",
-  fontWeight: "bold",
-  width: "50%",
+  width: "25%",
+  selectors: {
+    '&[data-state="active"]': {
+      fontWeight: "bold",
+      borderBottom: "cornflowerblue 3px solid", 
+    }
+  }
 });

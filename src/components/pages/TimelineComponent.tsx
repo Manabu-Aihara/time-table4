@@ -1,10 +1,11 @@
 import moment from 'moment';
-import { Link } from 'react-router-dom';
 import ReactCalendarTimeline from "react-calendar-timeline";
-import { Timeline } from "react-calendar-timeline-v3";
+import { Timeline, TimelineGroupBase } from "react-calendar-timeline-v3";
 
 import { useGroupUsersQuery, useGroupNameQuery, useAuthQuery, useRefreshQuery } from "../../resources/queries"
 import { useAuthContext, useEventsState } from "../../hooks/useContextFamily";
+import { getGroup } from '../../lib/TmelineGroup';
+import { exEvents } from '../../lib/SampleState';
 
 import 'react-calendar-timeline/lib/Timeline.css';
 // Missing "./dist/style.css" specifier in "react-calendar-timeline-v3" package
@@ -13,12 +14,13 @@ import 'react-calendar-timeline-v3/style.css';
 
 export const MyHorizonTimeline = () => {
   // グループメンバーカラム
-  const { data: groupUsers } = useGroupUsersQuery();
-  console.log(`Member in timeline: ${JSON.stringify(groupUsers)}`);
-  const groupMember = groupUsers?.data.map((v, k) => {
-    return {id: v.staff_id, title: v.family_kana}
-    // ここのidが、TimelineEventProps.groupに対応する🙁
-  });
+  const { data: groupUsers, isPending } = useGroupUsersQuery();
+  // console.log(`Member in timeline: ${JSON.stringify(groupUsers)}`);
+  // const groupMember = groupUsers?.data.map((v, k) => {
+  //   return {id: v.staff_id, title: v.family_kana}
+  //   // ここのidが、TimelineEventProps.groupに対応する🙁
+  // });
+  const groupMember: TimelineGroupBase[] = getGroup(groupUsers?.data);
 
   const authState = useAuthContext();
   const tokenContext = authState.type === 'token' ? authState.accessToken : undefined;
@@ -47,17 +49,16 @@ export const MyHorizonTimeline = () => {
     console.log(visibleTimeEnd)
   };
 
-  // if(!groupMember && state!.length < 2) return <p>タイムラインを表示します…</p>
-
   return (
     <>
-      {/* <button>
-        <Link to='/calendar'>カレンダー</Link>
-      </button> */}
-      {groupMember && state &&
+      <p>マイタイムライン</p>
+      {/*groupMember &&
+      これがあると、Storybookに支障が出る*/
+      isPending ? <p>Loading...</p> :
+        state ?
         <Timeline
           groups={groupMember}
-          // items={exItems}
+          // items={exEvents}
           items={state.map((item) => {
             return {
               ...item,
@@ -72,7 +73,7 @@ export const MyHorizonTimeline = () => {
           canMove={true}
           canResize={'both'}
           onBoundsChange={onBoundsChange}
-        />
+        /> : null
       }
     </>
   )

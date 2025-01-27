@@ -1,6 +1,6 @@
 import { act, render, waitFor } from '@testing-library/react';
 import { composeStories } from '@storybook/react';
-import { within } from "@storybook/test";
+import { expect } from 'vitest';
 
 import { Calendar } from "react-big-calendar";
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop'
@@ -49,7 +49,7 @@ describe('Calendar', () => {
       Primary.play?.({ canvasElement: container});
     });
     await waitFor(() => {
-      expect(getByText(/Thursday Jul 25/i, {exact: false})).toBeInTheDocument();
+      expect(getByText(/Wednesday Jan 22/i, {exact: false})).toBeInTheDocument();
       // expect(yesterday.textContent).toBeInTheDocument();
     });
     // console.log('Text elements: ', container.getElementsByClassName('rbc-toolbar-label')[0]);

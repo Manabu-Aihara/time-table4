@@ -1,6 +1,6 @@
 import moment from "moment";
 
-import { AuthInfoProp, EventItem, TimelineEventProps } from "./TimelineType";
+import { AuthInfoProp, EventItem, GroupUserProps, TimelineEventProps } from "./TimelineType";
 
 export const eventData: EventItem = {
   staff_id: 1000,
@@ -12,7 +12,7 @@ export const eventData: EventItem = {
 export const exItems: TimelineEventProps[] = [
   {
     id: 1,
-    group: 2,
+    group: 500,
     staff_id: 500,
     title: 'item 1',
     start_time: moment(),
@@ -22,7 +22,7 @@ export const exItems: TimelineEventProps[] = [
   },
   {
     id: 2,
-    group: 2,
+    group: 501,
     staff_id: 501,
     title: 'item 2',
     start_time: moment().add(-0.5, 'hour'),
@@ -32,7 +32,7 @@ export const exItems: TimelineEventProps[] = [
   },
   {
     id: 3,
-    group: 2,
+    group: 500,
     staff_id: 500,
     title: 'item 3',
     start_time: moment().add(2, 'hour'),
@@ -48,7 +48,7 @@ const adjustTime = (plusH: number): Date => {
 export const exEvents: TimelineEventProps[] = [
   {
     id: 1,
-    group: 4,
+    group: 2,
     staff_id: 500,
     title: 'item 1',
     start_time: moment(),
@@ -58,7 +58,7 @@ export const exEvents: TimelineEventProps[] = [
   },
   {
     id: 2,
-    group: 5,
+    group: 1,
     staff_id: 501,
     title: 'item 2',
     start_time: moment().add(-0.5, 'hour'),
@@ -68,7 +68,7 @@ export const exEvents: TimelineEventProps[] = [
   },
   {
     id: 3,
-    group: 4,
+    group: 2,
     staff_id: 500,
     title: 'item 3',
     start_time: moment().add(2, 'hour'),
@@ -85,6 +85,24 @@ export const exAuthToken: AuthInfoProp = {
 export const exAuthUser: AuthInfoProp = {
   type: 'auth',
   authId: 500,
-  code: 4,
+  code: 2,
   group: 'coffee'
 }
+
+export const exGroupUsers: GroupUserProps[] = [
+  {
+    staff_id: 500,
+    family_kana: 'フナキ',
+    last_kana: 'カズヨシ'
+  },
+  {
+    staff_id: 501,
+    family_kana: 'サイトウ',
+    last_kana: 'ヒロヤ'
+  },
+  {
+    staff_id: 502,
+    family_kana: 'Yuen',
+    last_kana: 'Biao'
+  }
+]
