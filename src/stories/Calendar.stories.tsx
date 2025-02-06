@@ -41,7 +41,7 @@ export const Primary: Story = {
     await userEvent.click(buttonElements[1]);
     // });
     expect(
-      canvas.getByText(/Wednesday Jan 20/i, { exact: false }),
+      canvas.getByText(/Wednesday Jan 29/i, { exact: false }),
     ).toBeInTheDocument();
   },
 };

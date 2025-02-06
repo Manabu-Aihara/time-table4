@@ -1,9 +1,0 @@
-// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
-
-exports[`MyHorizonTimeline component > タイムラインの表示 1`] = `
-<div>
-  <p>
-    マイタイムライン
-  </p>
-</div>
-`;

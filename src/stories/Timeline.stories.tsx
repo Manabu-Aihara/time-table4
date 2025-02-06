@@ -12,9 +12,10 @@ import { EventsStateContext } from "../components/templates/EventsParent";
 import { MyHorizonTimeline } from "../components/pages/TimelineComponent";
 import { exEvents, exGroupUsers, exItems } from "../lib/SampleState";
 
-import "react-calendar-timeline-v3/style.css";
-import { groupMockMember } from "./lib/group.mock";
+import { eventsStateMock, groupMockMember } from "./lib/timeline.mock";
 import { useEventsState } from "../hooks/useContextFamily";
+
+import "react-calendar-timeline-v3/style.css";
 
 const queryClient = new QueryClient();
 
@@ -27,17 +28,21 @@ const meta: Meta<typeof MyHorizonTimeline> = {
   title: "MyTimeline",
   component: MyHorizonTimeline,
   decorators: [
-    (Story) => (
+    (Story) => {
       // "Error: No QueryClient set, use QueryClientProvider to set one"
       // https://stackoverflow.com/questions/65590195/error-no-queryclient-set-use-queryclientprovider-to-set-one
-      <QueryClientProvider client={queryClient}>
-        <AuthStateContext.Provider value={authParam}>
-          <EventsStateContext.Provider value={exItems}>
-            <Story />
-          </EventsStateContext.Provider>
-        </AuthStateContext.Provider>
-      </QueryClientProvider>
-    ),
+      return (
+        <QueryClientProvider client={queryClient}>
+          <AuthStateContext.Provider value={authParam}>
+            <EventsStateContext.Provider value={exEvents}>
+              <div style={{border: '2px solid purple'}}>
+                <Story />
+              </div>
+            </EventsStateContext.Provider>
+          </AuthStateContext.Provider>
+        </QueryClientProvider>
+      )
+    },
   ],
 };
 export default meta;
@@ -49,9 +54,9 @@ const groups = [
 ];
 
 export const Standard: Story = {
-  async beforeEach() {
-    groupMockMember.mockReturnValue(groups);
-    fn(useEventsState).mockReturnValue(exEvents)
+  beforeEach: async () => {
+    // await groupMockMember.mockReturnValue(groups);
+    // await eventsStateMock.mockReturnValue(exItems);
   },
   args: {
     // items: exItems,

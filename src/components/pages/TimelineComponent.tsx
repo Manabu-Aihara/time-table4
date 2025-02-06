@@ -4,7 +4,7 @@ import { Timeline, TimelineGroupBase } from "react-calendar-timeline-v3";
 
 import { useGroupUsersQuery, useGroupNameQuery, useAuthQuery, useRefreshQuery } from "../../resources/queries"
 import { useAuthContext, useEventsState } from "../../hooks/useContextFamily";
-import { getGroup } from '../../lib/TmelineGroup';
+import { getGroup, getItems } from '../../lib/TmelineData';
 import { exEvents } from '../../lib/SampleState';
 
 import 'react-calendar-timeline/lib/Timeline.css';
@@ -15,7 +15,7 @@ import 'react-calendar-timeline-v3/style.css';
 export const MyHorizonTimeline = () => {
   // グループメンバーカラム
   const { data: groupUsers, isPending } = useGroupUsersQuery();
-  // console.log(`Member in timeline: ${JSON.stringify(groupUsers)}`);
+  // console.log(`Member in timeline: ${JSON.stringify(groupUserqs)}`);
   // const groupMember = groupUsers?.data.map((v, k) => {
   //   return {id: v.staff_id, title: v.family_kana}
   //   // ここのidが、TimelineEventProps.groupに対応する🙁
@@ -32,12 +32,13 @@ export const MyHorizonTimeline = () => {
 
   // ログインユーザーと同グループ全イベント
   const stateAll = useEventsState();
-  const state = stateAll.length > 2 ? stateAll.map((stateEvent) => {
-    // 力技で対応させる^^;
-    const convEventGroup: number = stateEvent.staff_id
-    stateEvent.group = convEventGroup
-    return stateEvent
-  }) : undefined;
+  // const state = stateAll.length > 2 ? stateAll.map((stateEvent) => {
+  //   // 力技で対応させる^^;
+  //   const convEventGroup: number = stateEvent.staff_id
+  //   stateEvent.group = convEventGroup
+  //   return stateEvent
+  // }) : undefined;
+  const state = getItems(stateAll)
   console.log(`Events in timeline: ${JSON.stringify(state)}`);
 
   const visibleTimeStart = moment().add(-12, 'hours');
@@ -55,7 +56,7 @@ export const MyHorizonTimeline = () => {
       {/*groupMember &&
       これがあると、Storybookに支障が出る*/
       isPending ? <p>Loading...</p> :
-        state ?
+        // state ?
         <Timeline
           groups={groupMember}
           // items={exEvents}
@@ -73,7 +74,7 @@ export const MyHorizonTimeline = () => {
           canMove={true}
           canResize={'both'}
           onBoundsChange={onBoundsChange}
-        /> : null
+        />
       }
     </>
   )

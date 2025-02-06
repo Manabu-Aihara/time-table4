@@ -1,6 +1,7 @@
 import moment from "moment";
 
 import { AuthInfoProp, EventItem, GroupUserProps, TimelineEventProps } from "./TimelineType";
+import { TimelineItemBase } from "react-calendar-timeline";
 
 export const eventData: EventItem = {
   staff_id: 1000,
@@ -9,36 +10,36 @@ export const eventData: EventItem = {
   end: moment().add(1, 'hours').toDate()
 }
 
-export const exItems: TimelineEventProps[] = [
+export const exItems: TimelineItemBase<moment.Moment>[] = [
   {
     id: 1,
-    group: 500,
-    staff_id: 500,
+    group: 2,
+    // staff_id: 500,
     title: 'item 1',
     start_time: moment(),
     end_time: moment().add(1, 'hour'),
-    start: new Date(),
-    end: new Date(new Date().setHours(new Date().getHours() + 1))
+    // start: new Date(),
+    // end: new Date(new Date().setHours(new Date().getHours() + 1))
   },
   {
     id: 2,
-    group: 501,
-    staff_id: 501,
+    group: 1,
+    // staff_id: 501,
     title: 'item 2',
     start_time: moment().add(-0.5, 'hour'),
     end_time: moment().add(0.5, 'hour'),
-    start: new Date(),
-    end: new Date(new Date().setHours(new Date().getHours() + 1))
+    // start: new Date(),
+    // end: new Date(new Date().setHours(new Date().getHours() + 1))
   },
   {
     id: 3,
-    group: 500,
-    staff_id: 500,
+    group: 1,
+    // staff_id: 500,
     title: 'item 3',
     start_time: moment().add(2, 'hour'),
     end_time: moment().add(3, 'hour'),
-    start: new Date(),
-    end: new Date(new Date().setHours(new Date().getHours() + 1))
+    // start: new Date(),
+    // end: new Date(new Date().setHours(new Date().getHours() + 1))
   }
 ]
 
