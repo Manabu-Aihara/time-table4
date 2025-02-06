@@ -44,7 +44,7 @@ import { build, mergeConfig } from "vite";
 //   }
 // };
 
-/** @type { import('@storybook/react-vite').StorybookConfig } */
+// /** @type { import('@storybook/react-vite').StorybookConfig } */
 const config: StorybookConfig = {
   stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
   addons: [
@@ -53,6 +53,7 @@ const config: StorybookConfig = {
     "@storybook/addon-essentials",
     "@chromatic-com/storybook",
     "@storybook/addon-interactions",
+    "storybook-addon-module-mock",
     // {
     //   name: 'storybook-addon-vite-mock',
     //   options: {
