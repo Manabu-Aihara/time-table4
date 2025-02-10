@@ -1,8 +1,9 @@
-import { createContext, Dispatch, ReactNode, useEffect, useReducer } from 'react';
+import {  ReactNode } from 'react';
 import moment from 'moment';
 
 // import { EventItem } from '../lib/EventItem';
 import { TimelineEventProps } from '../../lib/TimelineType';
+import { EventsStateContext } from '../../lib/ContextLibs';
 import { useEventsQueryForTL, useUserEventsQuery } from '../../resources/queries';
 import { useAuthContext } from '../../hooks/useContextFamily';
 import { fetchEventsDataForTT } from '../../resources/fetch';
@@ -10,28 +11,6 @@ import { fetchEventsDataForTT } from '../../resources/fetch';
 
 // type EventItems = EventItem[];
 export type TimelineEventPropsList = TimelineEventProps[]
-
-// * State専用 Context *
-// 今後 Providerを使わない時にはContextの値がundefinedになる必要があるので, 
-// Contextの値がEventsにもundefinedにもできるように宣言してください。
-export const EventsStateContext = createContext<TimelineEventPropsList | undefined>(undefined);
-
-export type Action = 
-  | { type: 'CREATE'; payload: {
-      id: number,
-      staff_id: number,
-      group: number,
-      title: ReactNode
-      }
-    }
-  | { type: 'UPDATE'; payload: TimelineEventProps };
-
-type EventsDispatch = Dispatch<Action>;
-
-// * Dispatch専用 Context *
-export const EventsDispatchContext = createContext<EventsDispatch | undefined>(
-  undefined
-);
 
 export const EventsContextProvider = ({ children }: { children: ReactNode }) => {
   // const [events, dispatch] = useReducer(timelineEventsReducer, [
@@ -71,9 +50,7 @@ export const EventsContextProvider = ({ children }: { children: ReactNode }) => 
   // if(isPending) return <div>Loading...</div>; // <- 取得中は children をマウントさせない
   return (
     <EventsStateContext.Provider value={state}>
-      {/* <EventsDispatchContext.Provider value={dispatch}> */}
-        {children}
-      {/* </EventsDispatchContext.Provider> */}
+      {children}
     </EventsStateContext.Provider>
   );
 }

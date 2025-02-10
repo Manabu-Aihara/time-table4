@@ -4,16 +4,11 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import { TimelineEventProps, AuthInfoProp } from "../lib/TimelineType";
-import {
-  AuthProvider,
-  AuthStateContext,
-} from "../components/templates/AuthParent";
-import { EventsStateContext } from "../components/templates/EventsParent";
+import { AuthStateContext, EventsStateContext } from "../lib/ContextLibs";
 import { MyHorizonTimeline } from "../components/pages/TimelineComponent";
 import { exEvents, exGroupUsers, exItems } from "../lib/SampleState";
 
 import { eventsStateMock, groupMockMember } from "./lib/timeline.mock";
-import { useEventsState } from "../hooks/useContextFamily";
 
 import "react-calendar-timeline-v3/style.css";
 
