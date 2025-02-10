@@ -77,10 +77,10 @@ export const ModuleMock: Story = {
     moduleMock: {
       mock: () => {
         const mockGroup = createMock(timelineProps, 'getGroup');
-        // const mockGroup = createMock(getGroup);
+        // const mockGroup = createMock(() => getGroup(exGroupUsers));
         mockGroup.mockReturnValue(groups);
         const mockItems = createMock(timelineProps, 'getItems');
-        // const mockItems = createMock(getItems);
+        // const mockItems = createMock(() => getItems(exEvents));
         mockGroup.mockReturnValue(exEvents);
         return [mockGroup, mockItems]
       }
@@ -90,10 +90,10 @@ export const ModuleMock: Story = {
     const canvas = within(canvasElement);
     expect(canvas.getByText('item 2')).toBeInTheDocument();
     const mock1 = getMock(parameters, timelineProps, 'getGroup');
-    // const mock1 = getMock(parameters, getGroup);
+    // const mock1 = getMock(parameters, () => getGroup(exGroupUsers));
     expect(mock1).toBeCalled();
     const mock2 = getMock(parameters, timelineProps, 'getItems');
-    // const mock2 = getMock(parameters, getItems);
+    // const mock2 = getMock(parameters, () => getItems(exEvents));
     expect(mock2).toBeCalled();
   }
 }
