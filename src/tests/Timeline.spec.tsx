@@ -54,4 +54,10 @@ describe('MyHorizonTimeline component', () =>{
       Standard.play?.({ canvasElement: container});
     });
   });
+  const { ModuleMock } = composeStories(stories);
+  it('モックの動作確認', async () => {
+    const { container } = render(ModuleMock());
+    expect(container).toMatchSnapshot();
+    expect(container).toBeDefined();
+  })
 });

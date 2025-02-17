@@ -1,0 +1,157 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`MyHorizonTimeline component > モックの動作確認 1`] = `
+<div>
+  <div
+    style="border: 2px solid purple;"
+  >
+    <p>
+      マイタイムライン
+    </p>
+    <div
+      class="react-timeline"
+    >
+      <div
+        class="bg-sidebarBackgroundColor border-b border-borderColor"
+        data-testid="headerRootDiv"
+        style="display: flex; width: 100%;"
+      >
+        <div
+          data-testid="sidebarHeader"
+          style="width: 150px;"
+        />
+        <div
+          class="border border-borderColor overflow-hidden"
+          data-testid="headerContainer"
+          style="width: calc(100% - 150px);"
+        >
+          <div
+            class="relative"
+            data-testid="dateHeader"
+            style="height: 30px; width: -450px;"
+          >
+            <div
+              class="absolute flex items-center justify-center h-full border-b cursor-pointer text-sm border-x border-borderColor text-itemColor bg-inherit"
+              data-testid="dateHeaderInterval"
+              style="left: 52.79146006944444px; width: -2281.25px;"
+            >
+              <span>
+                25
+              </span>
+            </div>
+          </div>
+          <div
+            class="relative"
+            data-testid="dateHeader"
+            style="height: 30px; width: -450px;"
+          >
+            <div
+              class="absolute flex items-center justify-center h-full border-b border-l-2 border-borderColor cursor-pointer text-sm bg-dateHeaderBgColor"
+              data-testid="dateHeaderInterval"
+              style="left: 52.79146006944444px; width: -2281.25px;"
+            >
+              <span>
+                25
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="block overflow-hidden whitespace-nowrap"
+        style="height: 60px;"
+      >
+        <div
+          class="overflow-hidden whitespace-nowrap inline-block vertical-top relative"
+          style="width: 150px; height: 60px;"
+        >
+          <div
+            style="width: 150px;"
+          >
+            <div
+              class="px-1 overflow-hidden whitespace-nowrap overflow-ellipsis m-0 border-b border-borderColor bg-rowBackgroundEven"
+              style="height: 30px; line-height: 30px;"
+            >
+              group 1
+            </div>
+            <div
+              class="px-1 overflow-hidden whitespace-nowrap overflow-ellipsis m-0 border-b border-borderColor bg-rowBackgroundOdd"
+              style="height: 30px; line-height: 30px;"
+            >
+              group 2
+            </div>
+          </div>
+        </div>
+        <div
+          class="inline-block whitespace-normal align-top overflow-x-scroll overflow-y-hidden touch-none relative"
+          data-testid="scroll-element"
+          style="width: -150px; height: 80px; cursor: default;"
+        >
+          <div
+            style="position: absolute; left: 0px; right: 0px; top: 0px; bottom: 0px;"
+          >
+            <div>
+              <div
+                class="absolute pointer-events-none top-0 border-l border-borderColor z-[30]"
+                style="left: 53.79146006944444px; width: -2281.25px; height: 60px;"
+              />
+            </div>
+            <div
+              class="select-none"
+            >
+              <div
+                class="border-b border-borderColor z-[40] bg-rowBackgroundEven"
+                style="width: -450px; height: 30px;"
+              />
+              <div
+                class="border-b border-borderColor z-[40] bg-rowBackgroundOdd"
+                style="width: -450px; height: 30px;"
+              />
+            </div>
+            <div
+              class="rct-items"
+            >
+              <div
+                class="absolute text-xs text-itemColor cursor-pointer bg-itemBackground border border-itemBorderColor z-[80] hover:z-[88]"
+                style="left: -174.99999066840277px; top: 35.25px; width: 3px; height: 19.5px; line-height: 19.5px;"
+                title="item 1"
+              >
+                <div
+                  class="sticky left-0 overflow-hidden inline-block rounded-sm px-1.5 h-full"
+                  style="max-height: 19.5;"
+                >
+                  item 1
+                </div>
+              </div>
+              <div
+                class="absolute text-xs text-itemColor cursor-pointer bg-itemBackground border border-itemBorderColor z-[80] hover:z-[88]"
+                style="left: -174.86978233506943px; top: 5.25px; width: 3px; height: 19.5px; line-height: 19.5px;"
+                title="item 2"
+              >
+                <div
+                  class="sticky left-0 overflow-hidden inline-block rounded-sm px-1.5 h-full"
+                  style="max-height: 19.5;"
+                >
+                  item 2
+                </div>
+              </div>
+              <div
+                class="absolute text-xs text-itemColor cursor-pointer bg-itemBackground border border-itemBorderColor z-[80] hover:z-[88]"
+                style="left: -175.52082400173612px; top: 35.25px; width: 3px; height: 19.5px; line-height: 19.5px;"
+                title="item 3"
+              >
+                <div
+                  class="sticky left-0 overflow-hidden inline-block rounded-sm px-1.5 h-full"
+                  style="max-height: 19.5;"
+                >
+                  item 3
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

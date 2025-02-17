@@ -53,6 +53,7 @@ const config: StorybookConfig = {
     "@storybook/addon-essentials",
     "@chromatic-com/storybook",
     "@storybook/addon-interactions",
+    "storybook-addon-module-mock",
     // {
     //   name: 'storybook-addon-vite-mock',
     //   options: {
