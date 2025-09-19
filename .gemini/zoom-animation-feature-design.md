@@ -27,11 +27,11 @@
 
  - ズーム機能は、`onItemDrag`プロパティを使用して、アイテムのドラッグイベントを検知し、タイムラインの表示範囲を動的に変更することで実現する。
 
- - ズームイン・ズームアウトの切り替えは、ドラッグの方向（左右）によって判断する。
-
  - ズームの度合いは、ドラッグの距離に応じて調整する。
 
- - ズームは、タイムライン全体に及ぶので、その都度適切なプロバティを設定する。そのため、再度[React Calendar Timeline](https://github.com/namespace-ee/react-calendar-timeline)を読み込む必要がある。
+ - ズームは、タイムラインの表示範囲全体に及ぶようにするので、その都度影響のある適切なプロバティを設定する。そのため、再度[React Calendar Timeline](https://github.com/namespace-ee/react-calendar-timeline)を読み込み、プロパティを選択・設定をする。
+
+ - ズームのロジックは、`src/lib/timelineZoomUtils.ts`にヘルパー関数として実装する。必要に応じて、`src/tests/timelineZoomUtils.spec.ts`にテストコードを記述する。
 
  - hookが必要なら、`src/hooks/useZoomAnimation.tsx`にhook関数を実装する。
 
