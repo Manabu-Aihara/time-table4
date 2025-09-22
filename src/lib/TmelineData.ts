@@ -10,20 +10,20 @@ const sampleGroups: TimelineGroupBase[] = [
   { id: 501, title: "group 1" },
   { id: 500, title: "group 2" },
 ];
-  
+
 export const getGroup = (groupQueries?: GroupUserProps[]): TimelineGroupBase[] => {
   const result = groupQueries ? groupQueries.map((groupUser, k) => {
     console.log(`ここは通ってないはず: ${k}`);
-    return {id: groupUser.staff_id, title: groupUser.family_kana};
+    return { id: groupUser.staff_id, title: groupUser.family_kana };
   }) : sampleGroups;
   return result;
 }
 
 export const getItems = (eventContextQueries: TimelineEventPropsList) => {
   const contextState = eventContextQueries.length > 1 ? eventContextQueries.map((eventContextData) => {
-    console.log(`Context module staff: ${eventContextData.staff_id}`);
+    // console.log(`Context module staff: ${eventContextData.staff_id}`);
     eventContextData.group = eventContextData.staff_id;
     return eventContextData
-  }): exEvents;
+  }) : exEvents;
   return contextState;
 }

@@ -12,10 +12,7 @@
 
 | No. | 機能名 | ドキュメント | 日付 | 担当者 | ステータス |
 |:---:|:---|:---|:---|:---|:---|
-| 1 | [タイムラインのズームアニメーション機能](.gemini/zoom-animation-feature.md) | 2025-09-18 | nabu_dvl | 進行中 |
-| 2 | [タイムラインのズームアニメーション機能の履歴](.gemini/zoom-animation-feature-history.md) | 2025-09-18 | nabu_dvl | 進行中 |
-| 3 | [タイムラインのズームアニメーション機能の設計](.gemini/zoom-animation-feature-design.md) | 2025-09-18 | nabu_dvl | 進行中 |
-| 4 | [タイムラインのズームアニメーション機能のテスト](.gemini/zoom-animation-feature-test.md) | 2025-09-18 | nabu_dvl | 進行中 |
+| 1 | タイムラインのズームアニメーション機能 | [.gemini/zoom-animation-v2.md](.gemini/zoom-animation-v2.md) | 2025-09-22 | nabu_dvl | 進行中 |
 
 ## Gemini Code Assistの役割
  - 開発プロセスの記録者
