@@ -34,6 +34,7 @@ src/sample/
 
 *storybook.log
 storybook-static/
+time-table4.git/
 
 # 依存パッケージを .yarn ディレクトリー配下にキャッシュ
 .pnp.*
