@@ -93,9 +93,9 @@ export const MyHorizonTimeline = () => {
           onTimeChange={handleTimeChange} // Use our combined handler
           minZoom={24 * 60 * 60 * 1000}
           maxZoom={365.24 * 86400 * 1000}
-          canMove={true}
-          canResize={'both'}
-          canChangeGroup={false}
+          // canMove={true}
+          // canResize={'both'}
+          lineHeight={60}
           onCanvasClick={(groupId, time, e) => { console.log('Canvas clicked', groupId, time, e); }}
           onBoundsChange={onBoundsChange}
         />

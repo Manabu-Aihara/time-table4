@@ -1,35 +1,11 @@
-import { ReactNode, createContext, useReducer, Dispatch, useState, useEffect } from "react";
+import { ReactNode, createContext } from "react";
 import { useLocation } from 'react-router-dom';
 
 import { AuthInfoProp } from "../../lib/TimelineType";
+import { AuthStateContext } from "../../hooks/useContextFamily";
 import { useSearchQuery } from "../../resources/queries";
 
-export const AuthStateContext = createContext<AuthInfoProp | undefined>(undefined);
-
-export type Action = {
-  type: 'UPDATE';
-  payload: {
-    token: string
-  };
-}
-
-type AuthDispatch = Dispatch<Action>;
-
-// * Dispatch専用 Context *
-export const AuthDispatchContext = createContext<AuthDispatch | undefined>(
-  undefined
-);
-
-const useAuthReducer = (token: AuthInfoProp, action: Action): AuthInfoProp => {
-  switch(action.type){
-    case 'UPDATE':
-      return {...token, type: 'token', accessToken: action.payload.token}
-    default:
-      throw new Error('Invalid action');
-  }
-}
-
-export const AuthProvider = ({children}: {children: ReactNode}) => {
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   // const [token, setToken] = useState<TokenProp>({
   //   accessToken: '0123456789abcdef'
@@ -45,7 +21,7 @@ export const AuthProvider = ({children}: {children: ReactNode}) => {
   return (
     <AuthStateContext.Provider value={_auth}>
       {/* <AuthDispatchContext.Provider value={dispatch}> */}
-        {children}
+      {children}
       {/* </AuthDispatchContext.Provider> */}
     </AuthStateContext.Provider>
   );
