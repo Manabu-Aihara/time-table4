@@ -48,9 +48,9 @@ export const MyCalendar = (
     const controlStyle: CSSProperties = {
       pointerEvents: 'auto'
     }
-    if(event.staff_id.toString() != data){
+    if (event.staff_id.toString() != data) {
       return { style: uncontrolStyle };
-    }else{
+    } else {
       return { style: controlStyle };
     }
   }
@@ -63,10 +63,10 @@ export const MyCalendar = (
     const { event, action } = args;
     // console.log('Auth info: ', typeof authId);
     console.log('Staff: ', event.staff_id);
-    if(event.staff_id !== Number(authId)){
+    if (event.staff_id !== Number(authId)) {
       console.log('ちがうとこ通ります', action);
       setDragStart(false);
-    }else{
+    } else {
       setDragStart(true);
     }
   }, []);
@@ -87,11 +87,11 @@ export const MyCalendar = (
 
   state?.map((evt, j) => {
     // if(prevRef){
-      if(prevRef.current?.isDraggable === true && prevRef.current.id === evt.id){
-        console.log(`Exclude event id: ${prevRef.current?.id}, ${j}`);
-        delete state[j];
-        prevRef.current = undefined;
-      }
+    if (prevRef.current?.isDraggable === true && prevRef.current.id === evt.id) {
+      console.log(`Exclude event id: ${prevRef.current?.id}, ${j}`);
+      delete state[j];
+      prevRef.current = undefined;
+    }
     // }
   });
   // console.log(`Old state: ${JSON.stringify(state)}`);
@@ -124,7 +124,7 @@ export const MyCalendar = (
   const onSelectSlot = useCallback((slotInfo: SlotInfo) => {
     window.clearTimeout(clickRef?.current);
     clickRef.current = window.setTimeout(() => {
-      if(countRef.current === clickRef.current){
+      if (countRef.current === clickRef.current) {
         setSlotInfoState(slotInfo);
         console.log('ここ通りました', slotInfo);
       }
@@ -149,14 +149,16 @@ export const MyCalendar = (
    * Edit form appear
    */
   const [selectEvent, setSelectEvent] = useState<TimelineEventProps>();
-  const {handleSelectEvent, EditForm, modal} = useCallingEditForm({onShowFormView(targetEvent){
-    setSelectEvent(targetEvent);
-  }});
+  const { handleSelectEvent, EditForm, modal } = useCallingEditForm({
+    onShowFormView(targetEvent) {
+      setSelectEvent(targetEvent);
+    }
+  });
 
-	const divRef = useRef<HTMLDivElement>(null);
+  const divRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     // console.log('Ref: ', divRef.current?.innerHTML);
-    divRef.current?.scrollIntoView({behavior: 'smooth'});
+    divRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [selectEvent]);
 
   /**
@@ -199,7 +201,7 @@ export const MyCalendar = (
             onRangeChange={range => {
               console.log('Range: ', range);
             }}
-            // components={customComponents}
+          // components={customComponents}
           />
         </chakra.div>
       </chakra.div>
@@ -207,8 +209,8 @@ export const MyCalendar = (
       {modal.showModal &&
         <EditForm>
           {selectEvent &&
-          <AddChildForm selectedEvent={selectEvent} ref={divRef}
-            closeClick={modal.closeInputForm} />}
+            <AddChildForm selectedEvent={selectEvent} ref={divRef}
+              closeClick={modal.closeInputForm} />}
         </EditForm>}
     </>
   );
