@@ -48,15 +48,15 @@ type PickTypeId = Pick<TimelineItem<Date>, 'id' | 'group'>;
 type NumberOfId = PropertyToNumber<PickTypeId>;
 type pickId = NumberOfId['id'];
 type pickGroup = NumberOfId['group'];
-const x: NumberOfId = {id: 123, group: 456}
+const x: NumberOfId = { id: 123, group: 456 }
 
 export type TimelineEventProps = Merge<NewTimelineItem, {
 	// id: pickId;
 	// group: pickGroup;
-  title: React.ReactNode;
+	title: React.ReactNode;
 	start_time: moment.Moment;
 	end_time: moment.Moment;
-  isDraggable?: boolean;
+	isDraggable?: boolean;
 }>;
 
 export type GroupUserProps = {
@@ -74,8 +74,8 @@ export type AuthInfoProp =
 
 // inferって何？
 type Option<T> =
-{ type: T; authId: number; group: number }
-| { type: T; accessToken: string };
+	{ type: T; authId: number; group: number }
+	| { type: T; accessToken: string };
 
 /**
  * AuthGuardContext<V>: Option<T>を受け取って、渡されたのがAuthInfoProp型なら中身の値の型を返す。
@@ -84,25 +84,24 @@ type Option<T> =
 type ExpectedAuth<V extends Option<unknown>> = V extends Option<infer R> ? R : never;
 
 export type AuthGuardContext = ExpectedAuth<Option<AuthInfoProp>>;
-const opt1: AuthGuardContext = {type: 'token', accessToken: ''};
-const opt2: AuthGuardContext = {type: 'auth', authId: 0, code: 100, group: "xyz"};
+const opt1: AuthGuardContext = { type: 'token', accessToken: '' };
+const opt2: AuthGuardContext = { type: 'auth', authId: 0, code: 100, group: "xyz" };
 
 type ExpectedQuery<V extends UseQueryResult> = V extends UseQueryResult<infer R> ? R : never;
 export type ExcludeQuery = ExpectedQuery<UseQueryResult>
 const h: ExcludeQuery = 'lmn';
 const i = String(h);
 
-
 export interface EventFormProps {
-  targetEvent?: TimelineEventProps,
+	targetEvent?: TimelineEventProps,
 	onShowFormView: (targetEvent: TimelineEventProps) => void
 }
 
 export interface ChangingButtonProp {
-  timeChangeEvents: TimelineEventProps[],
+	timeChangeEvents: TimelineEventProps[],
 }
 
 export interface CalendarActionProps {
-  onTimeChangeEvents?: (movedEvents: TimelineEventProps[]) => void
+	onTimeChangeEvents?: (movedEvents: TimelineEventProps[]) => void
 	onSlotInfo?: (selectedSlot: SlotInfo) => void
 }

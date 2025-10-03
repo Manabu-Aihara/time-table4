@@ -1,4 +1,6 @@
 import { useState, useCallback } from 'react';
+import { OnItemDragObjectResize } from 'react-calendar-timeline-v3';
+
 import { calculateZoomedTimeRange } from '../lib/timelineZoomUtils';
 
 // ドラッグの感度を調整する定数
@@ -17,9 +19,17 @@ export const useTimelineDragZoom = (
   const [dragStartX, setDragStartX] = useState<number | null>(null);
 
   const handleMouseDown = useCallback((e: React.MouseEvent<HTMLElement>) => {
+    // Check if the drag started on an item
+    const itemElement = (e.target as HTMLElement).closest('.rct-items');
+    if (!itemElement) {
+      // If not on an item, don't start the zoom drag
+      return;
+    }
+
     e.preventDefault();
     setIsDragging(true);
     setDragStartX(e.clientX);
+    console.log(`dragStartX down: ${dragStartX}`);
   }, []);
 
   const handleMouseMove = useCallback(
@@ -27,7 +37,6 @@ export const useTimelineDragZoom = (
       if (!isDragging || dragStartX === null) return;
 
       const dragDistance = e.clientX - dragStartX;
-      console.log(`dragDistance: ${dragDistance}`);
 
       // 小さな動きでは更新しない
       if (Math.abs(dragDistance) < DRAG_SENSITIVITY) return;
@@ -41,7 +50,9 @@ export const useTimelineDragZoom = (
 
       setVisibleTime(newTimes);
       // 継続的なズームのためにドラッグ開始点を更新
-      setDragStartX(e.clientX);
+      // mouseMoveイベントが発生するたびにドラッグの開始位置を現在位置で上書きしてしまっている
+      // setDragStartX(e.clientX);
+      console.log(`dragStartX move: ${dragStartX}`);
     },
     [isDragging, dragStartX, visibleTime, timelineWidth]
   );
