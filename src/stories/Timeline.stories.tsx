@@ -1,3 +1,4 @@
+/* eslint-disable storybook/no-renderer-packages */
 import { expect, within, userEvent, fn } from "@storybook/test";
 import type { Meta, StoryObj } from "@storybook/react";
 
@@ -60,7 +61,7 @@ export const Standard: Story = {
     visibleTimeStart: 1457902922261,
     visibleTimeEnd: 1457902922261 + 86400000,
   },
-  play: async ({ canvasElement }) => {
+  play: async ({ canvasElement }: { canvasElement: HTMLElement }) => {
     const canvas = within(canvasElement);
     // canvas.getByRole
     expect(canvas.getByText("マイタイムライン")).toBeInTheDocument();

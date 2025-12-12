@@ -1,6 +1,7 @@
 import { useState, useCallback, useRef, useMemo, useEffect, CSSProperties } from 'react';
 import { Calendar, Views, View, SlotInfo } from 'react-big-calendar'
 import withDragAndDrop, { OnDragStartArgs } from 'react-big-calendar/lib/addons/dragAndDrop'
+import moment from 'moment';
 import { chakra } from '@chakra-ui/system';
 
 import { useEventsState } from '../../hooks/useContextFamily';
@@ -32,9 +33,10 @@ export const MyCalendar = (
   const stateAll = useEventsState();
   // console.log('End data is existing?: ', stateAll.slice(-1)[0].end_time);
 
-  const state = stateAll.length > 2 ? stateAll.filter((stateEvent) => {
-    return stateEvent.staff_id == authId;
-  }) : undefined;
+  const state = stateAll.length > 0 ? stateAll.filter((stateEvent) => {
+    return stateEvent.staff_id === Number(authId);
+  }) : [];
+  console.log(`Calendar state: ${JSON.stringify(state)}`);
 
   /**
    * EventPropGetter
@@ -96,7 +98,7 @@ export const MyCalendar = (
   });
   // console.log(`Old state: ${JSON.stringify(state)}`);
   const newState = eventList ? state?.concat(eventList) : state;
-  console.log(`Expect update events: ${JSON.stringify(eventList)}`);
+  console.log(`Expect update events: ${JSON.stringify(eventList)}`)
 
   // Viewの切り替え調節、このまんま使える
   const [displayDate, setDisplayDate] = useState(new Date());
@@ -184,8 +186,8 @@ export const MyCalendar = (
             events={newState}
             // ドラッグ・アンド・ドロップ、リサイズ後、weekに戻ります
             defaultView="week"
-            startAccessor="start"
-            endAccessor="end"
+            startAccessor="start_time"
+            endAccessor="end_time"
             onNavigate={onNavigate}
             // eventPropGetter={() => {return {'className': 'cn'}}}
             eventPropGetter={eventPropGetter}
