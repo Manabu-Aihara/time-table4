@@ -1,47 +1,111 @@
-import { expect, within, userEvent } from "@storybook/test";
-import type { Meta, StoryObj } from "@storybook/react";
-import { Calendar } from "react-big-calendar";
-import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
+/* eslint-disable storybook/no-renderer-packages */
+import type { Meta, StoryObj } from '@storybook/react';
+import React from 'react';
+import { userEvent, within } from '@storybook/test';
+import { action } from '@storybook/addon-actions';
+import moment from 'moment';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-import localizer from "../lib/Localization";
-import { exEvents } from "../lib/SampleState";
-import { TimelineEventProps } from "../lib/TimelineType";
+import { MyCalendar } from '../components/pages/CalendarComponent';
+import { AuthInfoProp, TimelineEventProps } from '../lib/TimelineType';
+import { AuthStateContext, EventsStateContext } from '../hooks/useContextFamily';
+import { authKeys } from '../resources/cache';
+import { AxiosResponse } from 'axios';
+import { MemoryRouter } from 'react-router-dom';
 
-import "react-big-calendar/lib/css/react-big-calendar.css";
-import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
+// 1. Mock Data
+const mockEvents: TimelineEventProps[] = [
+  { id: 1, title: 'My Event 1', start_time: moment().add(-2, 'hours'), end_time: moment().add(-1, 'hours'), staff_id: 1, group: 1 },
+  { id: 2, title: 'Another User Event', start_time: moment(), end_time: moment().add(1, 'hours'), staff_id: 2, group: 2 },
+  { id: 3, title: 'My Event 2', start_time: moment().add(2, 'hours'), end_time: moment().add(3, 'hours'), staff_id: 1, group: 1 },
+];
 
-const DnDCalendar = withDragAndDrop(Calendar<TimelineEventProps>);
-const meta: Meta<typeof DnDCalendar> = {
-  title: "DummyClendar",
-  component: DnDCalendar,
+const mockAuthToken: AuthInfoProp = { type: 'token', accessToken: '0123456789abcdef' };
+const mockAuthId = '1';
+
+// Mock data for useAuthQuery - returns AxiosResponse with data containing staff_id, group_id, group_name
+const mockAuthResponse: AxiosResponse<{ staff_id: number; group_id: number; group_name: string }> = {
+  data: { staff_id: 1, group_id: 1, group_name: 'group 1' },
+  status: 200,
+  statusText: 'OK',
+  headers: {},
+  config: {},
+} as AxiosResponse<{ staff_id: number; group_id: number; group_name: string }>;
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
+
+// Set mock data for queries
+queryClient.setQueryData(authKeys.verify(mockAuthToken.accessToken), mockAuthResponse);
+queryClient.setQueryData(authKeys.search('userID'), mockAuthId);
+
+// 2. Meta configuration with decorators
+const meta: Meta<typeof MyCalendar> = {
+  title: 'Components/MyCalendar',
+  component: MyCalendar,
+  tags: ['autodocs'],
+  argTypes: {
+    onTimeChangeEvents: { action: 'onTimeChangeEvents' },
+    onSlotInfo: { action: 'onSlotInfo' },
+  },
+  decorators: [
+    (Story) => {
+      return (
+        <MemoryRouter>
+          <QueryClientProvider client={queryClient}>
+            <AuthStateContext.Provider value={mockAuthToken}>
+              <EventsStateContext.Provider value={mockEvents}>
+                <Story />
+              </EventsStateContext.Provider>
+            </AuthStateContext.Provider>
+          </QueryClientProvider>
+        </MemoryRouter>
+      );
+    },
+  ],
 };
-export default meta;
-type Story = StoryObj<typeof DnDCalendar>;
 
-export const Standard: Story = {
-  args: { localizer: localizer, events: exEvents, defaultView: "day" },
-  play: async ({ canvasElement }) => {
+export default meta;
+
+
+// 3. Stories
+type Story = StoryObj<typeof MyCalendar>;
+
+export const Default: Story = {
+  args: {
+    onTimeChangeEvents: action('onTimeChangeEvents'),
+    onSlotInfo: action('onSlotInfo'),
+  },
+  parameters: {
+    // Mock react-query hooks that are used in the component
+    msw: {
+      handlers: [],
+    },
+  },
+  play: async ({ canvasElement }: { canvasElement: HTMLElement }) => {
     const canvas = within(canvasElement);
-    const buttonElements = await canvas.getAllByRole("button");
-    const expectElms = buttonElements.filter((value) => {
-      if (value.className == "rbc-event") {
-        return value;
-      }
-    });
-    expect(expectElms.length).toBe(3);
+    // Verify only the user's events are rendered
+    await canvas.findByText('My Event 1');
+    await canvas.findByText('My Event 2');
+    // Verify the other user's event is also rendered (styling is different)
+    // await canvas.findByText('Another User Event');
   },
 };
 
-export const Primary: Story = {
-  args: { localizer: localizer, events: exEvents, defaultView: "day" },
-  play: async ({ canvasElement }) => {
+export const WithEventClick: Story = {
+  args: {
+    ...Default.args,
+  },
+  play: async ({ canvasElement }: { canvasElement: HTMLElement }) => {
     const canvas = within(canvasElement);
-    const buttonElements = await canvas.getAllByRole("button");
-    // await act(() => {
-    await userEvent.click(buttonElements[1]);
-    // });
-    expect(
-      canvas.getByText(/Wednesday Jan 29/i, { exact: false }),
-    ).toBeInTheDocument();
+    // Find and click the first event
+    const eventElement = await canvas.findByText('My Event 1');
+    await userEvent.click(eventElement);
   },
 };

@@ -8,6 +8,7 @@ import { useTimelineDragZoom } from '../../hooks/useTimelineDragZoom'; // Import
 import { getGroup, getItems } from '../../lib/TmelineData';
 
 import 'react-calendar-timeline-v3/style.css';
+import { TimelineEventProps } from '../../lib/TimelineType';
 
 export const MyHorizonTimeline = () => {
   const { data: groupUsers, isPending } = useGroupUsersQuery();
@@ -71,9 +72,9 @@ export const MyHorizonTimeline = () => {
     // Add a container div with a ref and mouse event handlers
     <div
       ref={containerRef}
-      onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
+      onMouseDownCapture={handleMouseDown}
+      onMouseMoveCapture={handleMouseMove}
+      onMouseUpCapture={handleMouseUp}
       onMouseLeave={handleMouseLeave}
     >
       <p>マイタイムライン</p>
@@ -91,10 +92,10 @@ export const MyHorizonTimeline = () => {
           visibleTimeStart={visibleTimeStart} // Use state from hook
           visibleTimeEnd={visibleTimeEnd}     // Use state from hook
           onTimeChange={handleTimeChange} // Use our combined handler
+          canMove={false} // Disable item move
+          canResize={false} // Disable item resize
           minZoom={24 * 60 * 60 * 1000}
           maxZoom={365.24 * 86400 * 1000}
-          // canMove={true}
-          // canResize={'both'}
           lineHeight={60}
           onCanvasClick={(groupId, time, e) => { console.log('Canvas clicked', groupId, time, e); }}
           onBoundsChange={onBoundsChange}

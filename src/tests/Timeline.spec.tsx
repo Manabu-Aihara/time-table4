@@ -40,9 +40,10 @@ const createWrapper = () => {
 // }));
 
 describe('MyHorizonTimeline component', () =>{
-  const { Standard } = composeStories(stories);
+  const { Standard } = composeStories<typeof import('../stories/Timeline.stories')>(stories);
+  type PlayCtx = Parameters<NonNullable<typeof Standard.play>>[0];
   it('タイムラインの表示', async () => {
-    const { container, getByText } = render(Standard());
+    const { container, getByText } = render(<Standard />);
     // const { result } = renderHook(() => useEventsState(), {
     //   wrapper: createWrapper()
     // });
@@ -51,7 +52,7 @@ describe('MyHorizonTimeline component', () =>{
     // const currentData = await waitFor(() => result.current.slice(-1)[0]);
     // expect(currentData).toBeDefined();
     await act(() => {
-      Standard.play?.({ canvasElement: container});
+      Standard.play?.({ canvasElement: container} as PlayCtx);
     });
   });
 });

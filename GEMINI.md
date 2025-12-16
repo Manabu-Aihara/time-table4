@@ -4,7 +4,8 @@
 
 ## 概要
 このプロジェクトは、社内メンバーの進捗及び予定を管理するものです。
-今回、タイムラインのズームアニメーション機能を実装するため、その要件定義と設計をまとめました。
+1. 今回、タイムラインのズームアニメーション機能を実装するため、その要件定義と設計をまとめました。
+2. MyCalendarコンポーネントの、初期表示箇所のテストを行うため、その変更点と経過をまとめました。
 
 ## 機能仕様書一覧
 
@@ -12,7 +13,10 @@
 
 | No. | 機能名 | ドキュメント | 日付 | 担当者 | ステータス |
 |:---:|:---|:---|:---|:---|:---|
-| 1 | タイムラインのズームアニメーション機能 | [.gemini/zoom-animation-v2.md](.gemini/zoom-animation-v2.md) | 2025-09-22 | nabu_dvl | 進行中 |
+| 1 | タイムラインのズームアニメーション機能 | [.gemini/zoom-animation-v2.md](.gemini/zoom-animation-v2.md) | 2025-09-22 | nabu_dvl | 完了 |
+| 2 | タイムラインのズームアニメーション機能の変更点 | [.gemini/zoom-animation-v2_1.md](.gemini/zoom-animation-v2_1.md) | 2025-09-30 | nabu_dvl | 完了 |
+| 3 | Calendarコンポーネントのテスト修正 | [.gemini/calendar-component-debug-log.md](.gemini/calendar-component-debug-log.md) | 2025-12-11 | nabu_dvl | 進行中 |
+
 
 ## Gemini Code Assistの役割
  - 開発プロセスの記録者
