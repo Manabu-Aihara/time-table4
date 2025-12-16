@@ -92,29 +92,29 @@ describe('MyCalendar (CalendarComponent)', () => {
     vi.clearAllMocks();
   });
 
-  // it('通常のレンダー from story', () => {
-  //   const screen = render(<Default />);
-  //   const buttonElements = screen.getAllByRole('button');
-  //   const expectElms = buttonElements.filter(value => {
-  //     if (value.className == 'rbc-event') {
-  //       return value;
-  //     }
-  //   });
-  //   // console.log('Role button: ', buttonElements);
-  //   expect(expectElms.length).toBe(2);
-  // });
-  // it('イベントクリックで編集フォームが表示されることのテスト', async () => {
-  //   const { container, getByText, getAllByTestId } = render(<WithEventClick />);
-  //   await waitFor(() => {
-  //     expect(getByText(/'My Event 1'/i, { exact: false })).toBeInTheDocument();
-  //     expect(getByText(/'My Event 2'/i, { exact: false })).toBeInTheDocument();
-  //     expect(getByText(/'Another User Event'/i, { exact: false })).toBeInTheDocument();
-  //   });
-  //   await act(() => {
-  //     WithEventClick.play?.({ canvasElement: container } as PlayCtx);
-  //     expect(getAllByTestId('edit-form'));
-  //   });
-  // });
+  it('通常のレンダー from story', () => {
+    const screen = render(<Default />);
+    const buttonElements = screen.getAllByRole('button');
+    const expectElms = buttonElements.filter(value => {
+      if (value.className == 'rbc-event') {
+        return value;
+      }
+    });
+    // console.log('Role button: ', buttonElements);
+    expect(expectElms.length).toBe(2);
+  });
+  it('イベントクリックで編集フォームが表示されることのテスト', async () => {
+    const { container, getByText, getAllByTestId } = render(<WithEventClick />);
+    await waitFor(() => {
+      expect(getByText(/'My Event 1'/i, { exact: false })).toBeInTheDocument();
+      expect(getByText(/'My Event 2'/i, { exact: false })).toBeInTheDocument();
+      expect(getByText(/'Another User Event'/i, { exact: false })).toBeInTheDocument();
+    });
+    await act(() => {
+      WithEventClick.play?.({ canvasElement: container } as PlayCtx);
+      expect(getAllByTestId('edit-form'));
+    });
+  });
 
   // テストをasyncに変更
   it('自身のAuthIdに紐づくイベントのみをフィルタして表示すること', async () => {
@@ -127,9 +127,9 @@ describe('MyCalendar (CalendarComponent)', () => {
     // findBy* クエリは要素が見つかるまで最大1000ms待機します
     const renderedEvents = await waitFor(() => {
       const elements = container.querySelectorAll('.rbc-event');
-      // if (elements.length !== 2) {
-      //   throw new Error('Expected 2 events to be rendered');
-      // }
+      if (elements.length !== 2) {
+        throw new Error('Expected 2 events to be rendered');
+      }
       return elements;
     });
 
@@ -138,8 +138,9 @@ describe('MyCalendar (CalendarComponent)', () => {
 
     // 表示されているイベントのタイトルが正しいことを確認
     const eventTitles = Array.from(renderedEvents).map(el => el.textContent);
-    expect(eventTitles).toContain('User 1 Event');
-    expect(eventTitles).toContain('User 1 Another Event');
+    console.log(eventTitles);
+    expect(eventTitles[0]).toContain('User 1 Event');
+    expect(eventTitles[1]).toContain('User 1 Another Event');
     expect(eventTitles).not.toContain('User 2 Event');
   });
 

@@ -31,12 +31,12 @@ export const MyCalendar = (
   console.log(`Auth info: ${typeof authId}`);
 
   const stateAll = useEventsState();
-  // console.log('End data is existing?: ', stateAll.slice(-1)[0].end_time);
+  console.log('Events are existing?: ', stateAll);
 
-  const state = stateAll.length > 0 ? stateAll.filter((stateEvent) => {
+  const state = stateAll.length > 2 ? stateAll.filter((stateEvent) => {
     return stateEvent.staff_id === Number(authId);
-  }) : [];
-  console.log(`Calendar state: ${JSON.stringify(state)}`);
+  }) : undefined;
+  // console.log(`Calendar state: ${JSON.stringify(state)}`);
 
   /**
    * EventPropGetter
@@ -186,8 +186,14 @@ export const MyCalendar = (
             events={newState}
             // ドラッグ・アンド・ドロップ、リサイズ後、weekに戻ります
             defaultView="week"
-            startAccessor="start_time"
-            endAccessor="end_time"
+            // startAccessor="start"
+            // endAccessor="end"
+            startAccessor={(stateEvent: TimelineEventProps) => {
+              return stateEvent.start_time.toDate();
+            }}
+            endAccessor={(stateEvent: TimelineEventProps) => {
+              return stateEvent.end_time.toDate();
+            }}
             onNavigate={onNavigate}
             // eventPropGetter={() => {return {'className': 'cn'}}}
             eventPropGetter={eventPropGetter}
